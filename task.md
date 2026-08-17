@@ -44,13 +44,21 @@
     - Server-side answer evaluation, score calculation, negative marking implementation, pass/fail status updates, and auto-submit handling
   - [x] Implement attempt fetching details (`GET /api/v1/attempts/:id`)
   - [x] Verify validation, attempt isolation, and negative marking math
-- [/] **Milestone 5: Clubs, Hackathons & Team Registration**
-  - [/] Define Club and Hackathon Mongoose schemas
-  - [ ] Implement Club Profile APIs (create, edit, delete, owner validations)
-  - [ ] Establish admin moderation routes to approve, reject, or suspend Clubs
-  - [ ] Implement Hackathon Management APIs (creation, editing, delete, publishing checks)
-  - [ ] Add Hackathon details rendering and user registration APIs
-  - [ ] Verify validations, role authorization, and workflow permissions
-- [ ] **Milestone 6: Project Submissions & Evaluating**
-- [ ] **Milestone 7: Announcements, Notifications & Admin**
-- [ ] **Milestone 8: Advanced Integrity, Search & Deployment**
+- [x] **Milestone 5: Clubs, Hackathons & Team Registration Foundation**
+  - [x] Define Club and Hackathon Mongoose schemas
+  - [x] Implement Club Profile APIs (create, edit, delete, owner validations)
+  - [x] Establish admin moderation routes to approve, reject, or suspend Clubs
+  - [x] Implement Hackathon Management APIs (creation, editing, delete, publishing checks)
+  - [x] Add Hackathon details rendering and user registration APIs
+  - [x] Verify validations, role authorization, and workflow permissions
+- [/] **Milestone 6: Teams and invitations**
+  - [/] Define Team and TeamInvitation schemas
+  - [ ] Implement create team API (`POST /api/v1/hackathons/:hackathonId/teams`)
+    - Enforce size limits, registrations, and leaders
+  - [ ] Implement invite members API (`POST /api/v1/teams/:teamId/invite`)
+  - [ ] Implement accept/reject invitation APIs (`POST /api/v1/team-invitations/:id/accept` and `/reject`)
+  - [ ] Implement remove member / leave team APIs
+  - [ ] Verify workflow permissions, invitations, and team boundary rules
+- [ ] **Milestone 7: Project Submissions & Evaluating**
+- [ ] **Milestone 8: Announcements, Notifications & Admin**
+- [ ] **Milestone 9: Advanced Integrity, Search & Deployment**
