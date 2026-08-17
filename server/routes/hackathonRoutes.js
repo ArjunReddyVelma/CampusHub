@@ -6,6 +6,7 @@ const {
   updateHackathon,
   deleteHackathon
 } = require('../controllers/hackathonController');
+const { createTeam } = require('../controllers/teamController');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -41,5 +42,9 @@ router
   .get(optionalProtect, getHackathon)
   .patch(protect, authorize('club_admin', 'admin'), updateHackathon)
   .delete(protect, authorize('club_admin', 'admin'), deleteHackathon);
+
+router
+  .route('/:hackathonId/teams')
+  .post(protect, authorize('student'), createTeam);
 
 module.exports = router;
