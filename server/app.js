@@ -7,6 +7,9 @@ const errorHandler = require('./middleware/error');
 
 // Route files
 const auth = require('./routes/authRoutes');
+const quizzes = require('./routes/quizRoutes');
+const questions = require('./routes/questionRoutes');
+const dashboard = require('./routes/dashboardRoutes');
 
 const app = express();
 
@@ -34,6 +37,9 @@ app.use(cookieParser());
 
 // Mount routers
 app.use('/api/v1/auth', auth);
+app.use('/api/v1/quizzes', quizzes);
+app.use('/api/v1/questions', questions);
+app.use('/api/v1/dashboard', dashboard);
 
 // Health Check Endpoint
 app.get('/api/v1/health', (req, res) => {
