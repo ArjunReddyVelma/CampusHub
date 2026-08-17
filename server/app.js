@@ -16,6 +16,9 @@ const hackathons = require('./routes/hackathonRoutes');
 const teams = require('./routes/teamRoutes');
 const teamInvitations = require('./routes/teamInvitationRoutes');
 const submissions = require('./routes/submissionRoutes');
+const announcements = require('./routes/announcementRoutes');
+const notifications = require('./routes/notificationRoutes');
+const admin = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -52,6 +55,9 @@ app.use('/api/v1/hackathons', hackathons);
 app.use('/api/v1/teams', teams);
 app.use('/api/v1/team-invitations', teamInvitations);
 app.use('/api/v1/submissions', submissions);
+app.use('/api/v1/announcements', announcements);
+app.use('/api/v1/notifications', notifications);
+app.use('/api/v1/admin', admin);
 
 // Health Check Endpoint
 app.get('/api/v1/health', (req, res) => {
