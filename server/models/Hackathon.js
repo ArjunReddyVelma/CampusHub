@@ -126,4 +126,7 @@ const HackathonSchema = new mongoose.Schema(
   }
 );
 
+// Full-text search index on Hackathon title, description, and problem statement
+HackathonSchema.index({ title: 'text', description: 'text', problemStatement: 'text' });
+
 module.exports = mongoose.model('Hackathon', HackathonSchema);

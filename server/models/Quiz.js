@@ -90,4 +90,7 @@ const QuizSchema = new mongoose.Schema(
   }
 );
 
+// Full-text search index on Quiz title and description
+QuizSchema.index({ title: 'text', description: 'text' });
+
 module.exports = mongoose.model('Quiz', QuizSchema);

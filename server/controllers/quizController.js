@@ -65,6 +65,10 @@ const getQuizzes = async (req, res, next) => {
       query.isPublished = true;
     }
 
+    if (req.query.search) {
+      query.$text = { $search: req.query.search };
+    }
+
     const quizzes = await Quiz.find(query).populate('professor', 'name email');
 
     res.status(200).json({

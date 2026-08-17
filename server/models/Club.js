@@ -58,4 +58,7 @@ const ClubSchema = new mongoose.Schema(
   }
 );
 
+// Full-text search index on Club name, description, and category
+ClubSchema.index({ name: 'text', description: 'text', category: 'text' });
+
 module.exports = mongoose.model('Club', ClubSchema);

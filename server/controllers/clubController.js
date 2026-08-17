@@ -50,6 +50,10 @@ const getClubs = async (req, res, next) => {
       query = {};
     }
 
+    if (req.query.search) {
+      query.$text = { $search: req.query.search };
+    }
+
     const clubs = await Club.find(query).populate('owner', 'name email');
 
     res.status(200).json({

@@ -98,6 +98,10 @@ const getHackathons = async (req, res, next) => {
       }
     }
 
+    if (req.query.search) {
+      query.$text = { $search: req.query.search };
+    }
+
     const hackathons = await Hackathon.find(query).populate('club', 'name logo');
 
     res.status(200).json({
