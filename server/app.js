@@ -1,8 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const errorHandler = require('./middleware/error');
+
+// Route files
+const auth = require('./routes/authRoutes');
 
 const app = express();
 
@@ -26,6 +30,10 @@ if (process.env.NODE_ENV !== 'test') {
 // Body Parsers
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+// Mount routers
+app.use('/api/v1/auth', auth);
 
 // Health Check Endpoint
 app.get('/api/v1/health', (req, res) => {
