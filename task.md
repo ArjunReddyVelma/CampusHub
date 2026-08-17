@@ -1,0 +1,50 @@
+# CampusHub - Task Checklist
+
+- [x] **Milestone 1: Project & Server Baseline**
+  - [x] Create root `.gitignore` and `package.json`
+  - [x] Initialize Express backend in `/server`
+    - [x] Install dependencies (`express`, `mongoose`, `jsonwebtoken`, `bcryptjs`, `cors`, `helmet`, `dotenv`, `morgan`)
+    - [x] Set up environment files (`.env.example` and local `.env`)
+    - [x] Set up MongoDB database config (`/server/config/db.js`)
+    - [x] Create custom logger utility (`/server/utils/logger.js`)
+    - [x] Create centralized error handler middleware (`/server/middleware/error.js`)
+    - [x] Set up main app routing and Express app (`/server/app.js`)
+    - [x] Create server startup file (`/server/server.js`)
+    - [x] Implement health check endpoint (`/api/v1/health`)
+  - [x] Initialize React frontend in `/client`
+    - [x] Setup Vite app with React template
+    - [x] Install styling & network dependencies (`tailwindcss`, `postcss`, `autoprefixer`, `react-router-dom`, `axios`)
+    - [x] Configure Tailwind CSS and PostCSS config files
+    - [x] VITE `.env.example` and local `.env` configuration
+  - [x] Verify execution
+    - [x] Run backend health check & connect MongoDB successfully
+    - [x] Spin up frontend and confirm dev server builds
+    - [x] Verify Git ignores `.env` files
+    - [x] Commit changes with message `feat: initialize CampusHub monorepo`
+- [x] **Milestone 2: Authentication & Roles**
+  - [x] Define Mongoose Schema for `User` model
+  - [x] Establish Student and Professor profile schemas
+  - [x] Create authentication services and token utils
+  - [x] Implement password hashing hooks
+  - [x] Create authentication and role verification middlewares
+  - [x] Implement registration, login, logout, password change routes
+  - [x] Verify validation, encryption, JWT cookies, security headers, and role blocking
+- [x] **Milestone 3: Quizzes & Dashboard Base**
+  - [x] Define Quiz and Question schemas
+  - [x] Implement quiz creation, retrieval, updating, and deletion endpoints for professors
+  - [x] Implement quiz question addition, removal, and editing endpoints
+  - [x] Implement Student dashboard endpoint to fetch relevant assessments and metrics
+  - [x] Establish Professor dashboard endpoint to render total, active, and completed quizzes
+  - [x] Verify validation, ownership rules, and data isolation
+- [/] **Milestone 4: Quiz Attempt & Scoring Engine**
+  - [/] Define QuizAttempt schema
+  - [ ] Implement start quiz attempt endpoint (`POST /api/v1/quizzes/:quizId/attempts`)
+    - Verify quiz availability, active window, and maximum attempt limits
+  - [ ] Implement submit quiz attempt endpoint (`POST /api/v1/attempts/:id/submit`)
+    - Server-side answer evaluation, score calculation, negative marking implementation, pass/fail status updates, and auto-submit handling
+  - [ ] Implement attempt fetching details (`GET /api/v1/attempts/:id`)
+  - [ ] Verify validation, attempt isolation, and negative marking math
+- [ ] **Milestone 5: Clubs, Hackathons & Team Registration**
+- [ ] **Milestone 6: Project Submissions & Evaluating**
+- [ ] **Milestone 7: Announcements, Notifications & Admin**
+- [ ] **Milestone 8: Advanced Integrity, Search & Deployment**
