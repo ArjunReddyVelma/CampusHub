@@ -51,14 +51,20 @@
   - [x] Implement Hackathon Management APIs (creation, editing, delete, publishing checks)
   - [x] Add Hackathon details rendering and user registration APIs
   - [x] Verify validations, role authorization, and workflow permissions
-- [/] **Milestone 6: Teams and invitations**
-  - [/] Define Team and TeamInvitation schemas
-  - [ ] Implement create team API (`POST /api/v1/hackathons/:hackathonId/teams`)
+- [x] **Milestone 6: Teams and invitations**
+  - [x] Define Team and TeamInvitation schemas
+  - [x] Implement create team API (`POST /api/v1/hackathons/:hackathonId/teams`)
     - Enforce size limits, registrations, and leaders
-  - [ ] Implement invite members API (`POST /api/v1/teams/:teamId/invite`)
-  - [ ] Implement accept/reject invitation APIs (`POST /api/v1/team-invitations/:id/accept` and `/reject`)
-  - [ ] Implement remove member / leave team APIs
-  - [ ] Verify workflow permissions, invitations, and team boundary rules
-- [ ] **Milestone 7: Project Submissions & Evaluating**
+  - [x] Implement invite members API (`POST /api/v1/teams/:teamId/invite`)
+  - [x] Implement accept/reject invitation APIs (`POST /api/v1/team-invitations/:id/accept` and `/reject`)
+  - [x] Implement remove member / leave team APIs
+  - [x] Verify workflow permissions, invitations, and team boundary rules
+- [/] **Milestone 7: Project Submissions & Evaluating**
+  - [/] Define Submission Mongoose schema (tracks team, hackathon, repo URL, demo video, description, and scores/grading)
+  - [ ] Implement create submission API (`POST /api/v1/hackathons/:hackathonId/submissions`)
+    - Verify submission deadline constraints, team complete status, and previous submissions overwrite settings
+  - [ ] Implement evaluation routing for judges (`POST /api/v1/submissions/:id/evaluate`)
+    - Grade rubrics, feedback notes, score aggregation, and automatic placement math
+  - [ ] Verify validation, deadline restrictions, ownership rules, and calculation logic
 - [ ] **Milestone 8: Announcements, Notifications & Admin**
 - [ ] **Milestone 9: Advanced Integrity, Search & Deployment**
