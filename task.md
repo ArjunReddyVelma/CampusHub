@@ -74,7 +74,7 @@
   - [x] Implement mark notification as read API (`PATCH /api/v1/notifications/:id/read`)
   - [x] Add Admin statistics retrieval endpoint (`GET /api/v1/admin/dashboard`)
   - [x] Verify validation, authorization rules, scopes, and notifications cascade
-- [/] **Milestone 9: Advanced Integrity, Search & Deployment**
-  - [/] Formulate a plan for database scaling, full-text searching, and production deployment scripts
-  - [ ] Implement index strategies and search logic
-  - [ ] Verify execution correctness and security posture
+- [x] **Milestone 9: Advanced Integrity, Search & Deployment**
+  - [x] Formulate a plan for database scaling, full-text searching, and production deployment scripts
+  - [x] Implement index strategies and search logic
+  - [x] Verify execution correctness and security posture
