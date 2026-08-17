@@ -1,80 +1,23 @@
-# CampusHub - Task Checklist
+# CampusHub Frontend Phase 1 - Task Checklist
 
-- [x] **Milestone 1: Project & Server Baseline**
-  - [x] Create root `.gitignore` and `package.json`
-  - [x] Initialize Express backend in `/server`
-    - [x] Install dependencies (`express`, `mongoose`, `jsonwebtoken`, `bcryptjs`, `cors`, `helmet`, `dotenv`, `morgan`)
-    - [x] Set up environment files (`.env.example` and local `.env`)
-    - [x] Set up MongoDB database config (`/server/config/db.js`)
-    - [x] Create custom logger utility (`/server/utils/logger.js`)
-    - [x] Create centralized error handler middleware (`/server/middleware/error.js`)
-    - [x] Set up main app routing and Express app (`/server/app.js`)
-    - [x] Create server startup file (`/server/server.js`)
-    - [x] Implement health check endpoint (`/api/v1/health`)
-  - [x] Initialize React frontend in `/client`
-    - [x] Setup Vite app with React template
-    - [x] Install styling & network dependencies (`tailwindcss`, `postcss`, `autoprefixer`, `react-router-dom`, `axios`)
-    - [x] Configure Tailwind CSS and PostCSS config files
-    - [x] VITE `.env.example` and local `.env` configuration
-  - [x] Verify execution
-    - [x] Run backend health check & connect MongoDB successfully
-    - [x] Spin up frontend and confirm dev server builds
-    - [x] Verify Git ignores `.env` files
-    - [x] Commit changes with message `feat: initialize CampusHub monorepo`
-- [x] **Milestone 2: Authentication & Roles**
-  - [x] Define Mongoose Schema for `User` model
-  - [x] Establish Student and Professor profile schemas
-  - [x] Create authentication services and token utils
-  - [x] Implement password hashing hooks
-  - [x] Create authentication and role verification middlewares
-  - [x] Implement registration, login, logout, password change routes
-  - [x] Verify validation, encryption, JWT cookies, security headers, and role blocking
-- [x] **Milestone 3: Quizzes & Dashboard Base**
-  - [x] Define Quiz and Question schemas
-  - [x] Implement quiz creation, retrieval, updating, and deletion endpoints for professors
-  - [x] Implement quiz question addition, removal, and editing endpoints
-  - [x] Implement Student dashboard endpoint to fetch relevant assessments and metrics
-  - [x] Establish Professor dashboard endpoint to render total, active, and completed quizzes
-  - [x] Verify validation, ownership rules, and data isolation
-- [x] **Milestone 4: Quiz Attempt & Scoring Engine**
-  - [x] Define QuizAttempt schema
-  - [x] Implement start quiz attempt endpoint (`POST /api/v1/quizzes/:quizId/attempts`)
-    - Verify quiz availability, active window, and maximum attempt limits
-  - [x] Implement submit quiz attempt endpoint (`POST /api/v1/attempts/:id/submit`)
-    - Server-side answer evaluation, score calculation, negative marking implementation, pass/fail status updates, and auto-submit handling
-  - [x] Implement attempt fetching details (`GET /api/v1/attempts/:id`)
-  - [x] Verify validation, attempt isolation, and negative marking math
-- [x] **Milestone 5: Clubs, Hackathons & Team Registration Foundation**
-  - [x] Define Club and Hackathon Mongoose schemas
-  - [x] Implement Club Profile APIs (create, edit, delete, owner validations)
-  - [x] Establish admin moderation routes to approve, reject, or suspend Clubs
-  - [x] Implement Hackathon Management APIs (creation, editing, delete, publishing checks)
-  - [x] Add Hackathon details rendering and user registration APIs
-  - [x] Verify validations, role authorization, and workflow permissions
-- [x] **Milestone 6: Teams and invitations**
-  - [x] Define Team and TeamInvitation schemas
-  - [x] Implement create team API (`POST /api/v1/hackathons/:hackathonId/teams`)
-    - Enforce size limits, registrations, and leaders
-  - [x] Implement invite members API (`POST /api/v1/teams/:teamId/invite`)
-  - [x] Implement accept/reject invitation APIs (`POST /api/v1/team-invitations/:id/accept` and `/reject`)
-  - [x] Implement remove member / leave team APIs
-  - [x] Verify workflow permissions, invitations, and team boundary rules
-- [x] **Milestone 7: Project Submissions & Evaluating**
-  - [x] Define Submission Mongoose schema (tracks team, hackathon, repo URL, demo video, description, and scores/grading)
-  - [x] Implement create submission API (`POST /api/v1/hackathons/:hackathonId/submissions`)
-    - Verify submission deadline constraints, team complete status, and previous submissions overwrite settings
-  - [x] Implement evaluation routing for judges (`POST /api/v1/submissions/:id/evaluate`)
-    - Grade rubrics, feedback notes, score aggregation, and automatic placement math
-  - [x] Verify validation, deadline restrictions, ownership rules, and calculation logic
-- [x] **Milestone 8: Announcements, Notifications & Admin**
-  - [x] Define Announcement and Notification schemas
-  - [x] Implement create announcement API (`POST /api/v1/announcements`)
-    - Role restrictions (professor or club_admin for scope target), email notifications configuration
-  - [x] Implement fetch announcements and notifications APIs (`GET /api/v1/announcements` and `GET /api/v1/notifications`)
-  - [x] Implement mark notification as read API (`PATCH /api/v1/notifications/:id/read`)
-  - [x] Add Admin statistics retrieval endpoint (`GET /api/v1/admin/dashboard`)
-  - [x] Verify validation, authorization rules, scopes, and notifications cascade
-- [x] **Milestone 9: Advanced Integrity, Search & Deployment**
-  - [x] Formulate a plan for database scaling, full-text searching, and production deployment scripts
-  - [x] Implement index strategies and search logic
-  - [x] Verify execution correctness and security posture
+- [x] Existing frontend inspected
+- [x] Existing backend auth inspected
+- [x] Axios API client & Auth Services
+  - [x] Create Axios API client (`api.js`) with `withCredentials: true`
+  - [x] Create `authService.js` supporting login, register, logout, getCurrentUser, changePassword
+- [x] Authentication Context & State
+  - [x] Implement `AuthContext.jsx` with loading states and session restoration
+- [x] Routing and Security
+  - [x] Implement `ProtectedRoute.jsx` (auth redirect + role authorization checking)
+  - [x] Setup base router routing configuration in `App.jsx`
+- [x] Layouts and UI shells
+  - [x] Clean up Vite global CSS defaults in `index.css`
+  - [x] Create reusable common components (Button, Input, LoadingSpinner, ErrorMessage)
+  - [x] Create layout components (Navbar, Sidebar, DashboardLayout)
+  - [x] Create PublicLayout shell
+  - [x] Create placeholder dashboard pages for student, professor, club, judge, and admin
+- [x] Verification and Build Checks
+  - [x] Confirm successful production build (`npm run build`)
+  - [x] Run programmatic verification test (verified backend integration with test suites)
+  - [x] Ensure no secrets are committed
+  - [x] Commit all changes to git
