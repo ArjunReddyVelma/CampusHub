@@ -1,23 +1,18 @@
-# CampusHub Frontend Phase 1 - Task Checklist
+# CampusHub Frontend Phase 2 - Task Checklist
 
-- [x] Existing frontend inspected
-- [x] Existing backend auth inspected
-- [x] Axios API client & Auth Services
-  - [x] Create Axios API client (`api.js`) with `withCredentials: true`
-  - [x] Create `authService.js` supporting login, register, logout, getCurrentUser, changePassword
-- [x] Authentication Context & State
-  - [x] Implement `AuthContext.jsx` with loading states and session restoration
-- [x] Routing and Security
-  - [x] Implement `ProtectedRoute.jsx` (auth redirect + role authorization checking)
-  - [x] Setup base router routing configuration in `App.jsx`
-- [x] Layouts and UI shells
-  - [x] Clean up Vite global CSS defaults in `index.css`
-  - [x] Create reusable common components (Button, Input, LoadingSpinner, ErrorMessage)
-  - [x] Create layout components (Navbar, Sidebar, DashboardLayout)
-  - [x] Create PublicLayout shell
-  - [x] Create placeholder dashboard pages for student, professor, club, judge, and admin
+- [x] Centralized Helpers & Layouts
+  - [x] Implement `roleRedirect.js` helper mapping roles to dashboards
+  - [x] Implement `PublicNavbar.jsx` for clean public navigation
+  - [x] Update `PublicLayout.jsx` to render `PublicNavbar`
+- [x] Landing, Login & Registration Page Updates
+  - [x] Implement professional, responsive `Welcome.jsx` landing page
+  - [x] Implement fully validated `Login.jsx` with show/hide password toggle
+  - [x] Implement dynamic dynamic student/professor forms in `Register.jsx` with confirm password validation and toggles
+- [x] Secure Boundaries & Fallback Pages
+  - [x] Update `Unauthorized.jsx` with dashboard redirect link and 403 styling
+  - [x] Implement `NotFound.jsx` catch-all page with back navigation
 - [x] Verification and Build Checks
-  - [x] Confirm successful production build (`npm run build`)
-  - [x] Run programmatic verification test (verified backend integration with test suites)
-  - [x] Ensure no secrets are committed
+  - [x] Wire routing catch-all wildcard `*` route in `App.jsx`
+  - [x] Verify execution: build successful (`npm run build`)
+  - [x] Verify execution: linter clean (`npm run lint`)
   - [x] Commit all changes to git
