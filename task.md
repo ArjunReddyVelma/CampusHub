@@ -59,12 +59,19 @@
   - [x] Implement accept/reject invitation APIs (`POST /api/v1/team-invitations/:id/accept` and `/reject`)
   - [x] Implement remove member / leave team APIs
   - [x] Verify workflow permissions, invitations, and team boundary rules
-- [/] **Milestone 7: Project Submissions & Evaluating**
-  - [/] Define Submission Mongoose schema (tracks team, hackathon, repo URL, demo video, description, and scores/grading)
-  - [ ] Implement create submission API (`POST /api/v1/hackathons/:hackathonId/submissions`)
+- [x] **Milestone 7: Project Submissions & Evaluating**
+  - [x] Define Submission Mongoose schema (tracks team, hackathon, repo URL, demo video, description, and scores/grading)
+  - [x] Implement create submission API (`POST /api/v1/hackathons/:hackathonId/submissions`)
     - Verify submission deadline constraints, team complete status, and previous submissions overwrite settings
-  - [ ] Implement evaluation routing for judges (`POST /api/v1/submissions/:id/evaluate`)
+  - [x] Implement evaluation routing for judges (`POST /api/v1/submissions/:id/evaluate`)
     - Grade rubrics, feedback notes, score aggregation, and automatic placement math
-  - [ ] Verify validation, deadline restrictions, ownership rules, and calculation logic
-- [ ] **Milestone 8: Announcements, Notifications & Admin**
+  - [x] Verify validation, deadline restrictions, ownership rules, and calculation logic
+- [/] **Milestone 8: Announcements, Notifications & Admin**
+  - [/] Define Announcement and Notification schemas
+  - [ ] Implement create announcement API (`POST /api/v1/announcements`)
+    - Role restrictions (professor or club_admin for scope target), email notifications configuration
+  - [ ] Implement fetch announcements and notifications APIs (`GET /api/v1/announcements` and `GET /api/v1/notifications`)
+  - [ ] Implement mark notification as read API (`PATCH /api/v1/notifications/:id/read`)
+  - [ ] Add Admin statistics retrieval endpoint (`GET /api/v1/admin/dashboard`)
+  - [ ] Verify validation, authorization rules, scopes, and notifications cascade
 - [ ] **Milestone 9: Advanced Integrity, Search & Deployment**
