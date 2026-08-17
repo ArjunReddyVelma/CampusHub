@@ -36,15 +36,21 @@
   - [x] Implement Student dashboard endpoint to fetch relevant assessments and metrics
   - [x] Establish Professor dashboard endpoint to render total, active, and completed quizzes
   - [x] Verify validation, ownership rules, and data isolation
-- [/] **Milestone 4: Quiz Attempt & Scoring Engine**
-  - [/] Define QuizAttempt schema
-  - [ ] Implement start quiz attempt endpoint (`POST /api/v1/quizzes/:quizId/attempts`)
+- [x] **Milestone 4: Quiz Attempt & Scoring Engine**
+  - [x] Define QuizAttempt schema
+  - [x] Implement start quiz attempt endpoint (`POST /api/v1/quizzes/:quizId/attempts`)
     - Verify quiz availability, active window, and maximum attempt limits
-  - [ ] Implement submit quiz attempt endpoint (`POST /api/v1/attempts/:id/submit`)
+  - [x] Implement submit quiz attempt endpoint (`POST /api/v1/attempts/:id/submit`)
     - Server-side answer evaluation, score calculation, negative marking implementation, pass/fail status updates, and auto-submit handling
-  - [ ] Implement attempt fetching details (`GET /api/v1/attempts/:id`)
-  - [ ] Verify validation, attempt isolation, and negative marking math
-- [ ] **Milestone 5: Clubs, Hackathons & Team Registration**
+  - [x] Implement attempt fetching details (`GET /api/v1/attempts/:id`)
+  - [x] Verify validation, attempt isolation, and negative marking math
+- [/] **Milestone 5: Clubs, Hackathons & Team Registration**
+  - [/] Define Club and Hackathon Mongoose schemas
+  - [ ] Implement Club Profile APIs (create, edit, delete, owner validations)
+  - [ ] Establish admin moderation routes to approve, reject, or suspend Clubs
+  - [ ] Implement Hackathon Management APIs (creation, editing, delete, publishing checks)
+  - [ ] Add Hackathon details rendering and user registration APIs
+  - [ ] Verify validations, role authorization, and workflow permissions
 - [ ] **Milestone 6: Project Submissions & Evaluating**
 - [ ] **Milestone 7: Announcements, Notifications & Admin**
 - [ ] **Milestone 8: Advanced Integrity, Search & Deployment**
