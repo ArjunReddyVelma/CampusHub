@@ -66,12 +66,15 @@
   - [x] Implement evaluation routing for judges (`POST /api/v1/submissions/:id/evaluate`)
     - Grade rubrics, feedback notes, score aggregation, and automatic placement math
   - [x] Verify validation, deadline restrictions, ownership rules, and calculation logic
-- [/] **Milestone 8: Announcements, Notifications & Admin**
-  - [/] Define Announcement and Notification schemas
-  - [ ] Implement create announcement API (`POST /api/v1/announcements`)
+- [x] **Milestone 8: Announcements, Notifications & Admin**
+  - [x] Define Announcement and Notification schemas
+  - [x] Implement create announcement API (`POST /api/v1/announcements`)
     - Role restrictions (professor or club_admin for scope target), email notifications configuration
-  - [ ] Implement fetch announcements and notifications APIs (`GET /api/v1/announcements` and `GET /api/v1/notifications`)
-  - [ ] Implement mark notification as read API (`PATCH /api/v1/notifications/:id/read`)
-  - [ ] Add Admin statistics retrieval endpoint (`GET /api/v1/admin/dashboard`)
-  - [ ] Verify validation, authorization rules, scopes, and notifications cascade
-- [ ] **Milestone 9: Advanced Integrity, Search & Deployment**
+  - [x] Implement fetch announcements and notifications APIs (`GET /api/v1/announcements` and `GET /api/v1/notifications`)
+  - [x] Implement mark notification as read API (`PATCH /api/v1/notifications/:id/read`)
+  - [x] Add Admin statistics retrieval endpoint (`GET /api/v1/admin/dashboard`)
+  - [x] Verify validation, authorization rules, scopes, and notifications cascade
+- [/] **Milestone 9: Advanced Integrity, Search & Deployment**
+  - [/] Formulate a plan for database scaling, full-text searching, and production deployment scripts
+  - [ ] Implement index strategies and search logic
+  - [ ] Verify execution correctness and security posture
