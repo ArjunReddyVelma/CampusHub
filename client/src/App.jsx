@@ -14,6 +14,7 @@ import Welcome from './pages/Welcome';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Unauthorized from './pages/Unauthorized';
+import NotFound from './pages/NotFound';
 
 // Dashboard role pages
 import StudentDashboard from './pages/StudentDashboard';
@@ -72,8 +73,10 @@ function App() {
             </Route>
           </Route>
 
-          {/* Catch-all navigation fallback redirection */}
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {/* Catch-all navigation fallback to NotFound */}
+          <Route element={<PublicLayout />}>
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </AuthProvider>
