@@ -1,53 +1,82 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+
+// Layout wrappers
+import PublicLayout from './layouts/PublicLayout';
+import DashboardLayout from './layouts/DashboardLayout';
+
+// Guard wrappers
+import { ProtectedRoute, RoleRoute } from './routes/ProtectedRoute';
+
+// Public pages
+import Welcome from './pages/Welcome';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Unauthorized from './pages/Unauthorized';
+
+// Dashboard role pages
+import StudentDashboard from './pages/StudentDashboard';
+import ProfessorDashboard from './pages/ProfessorDashboard';
+import ClubDashboard from './pages/ClubDashboard';
+import JudgeDashboard from './pages/JudgeDashboard';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
-  const [health, setHealth] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchHealth = async () => {
-      try {
-        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
-        const response = await axios.get(`${apiUrl}/health`);
-        setHealth(response.data);
-      } catch (err) {
-        console.error('Error fetching health:', err);
-        setHealth({ success: false, message: 'Could not connect to API server' });
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchHealth();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-xl p-8 max-w-md w-full border border-slate-100 text-center">
-        <h1 className="text-3xl font-extrabold text-emerald-600 mb-2">CampusHub</h1>
-        <p className="text-slate-500 mb-6 font-medium">University Digital Activity & Assessment Platform</p>
-        
-        <div className="p-4 bg-slate-50 rounded-lg border border-slate-100 text-left">
-          <div className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Backend Connection Status</div>
-          {loading ? (
-            <div className="flex items-center text-slate-500 text-sm">
-              <div className="w-2 h-2 rounded-full bg-slate-400 animate-pulse mr-2"></div>
-              Checking backend connection...
-            </div>
-          ) : health?.success ? (
-            <div className="flex items-center text-emerald-600 text-sm font-semibold">
-              <div className="w-2 h-2 rounded-full bg-emerald-500 mr-2"></div>
-              {health.message}
-            </div>
-          ) : (
-            <div className="flex items-center text-rose-600 text-sm font-semibold">
-              <div className="w-2 h-2 rounded-full bg-rose-500 mr-2"></div>
-              {health?.message || 'Offline'}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public routing pathways */}
+          <Route element={<PublicLayout />}>
+            <Route path="/" element={<Welcome />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+          </Route>
+
+          {/* Secure/Protected pathways */}
+          <Route element={<ProtectedRoute />}>
+            <Route element={<DashboardLayout />}>
+              {/* Student features workspace */}
+              <Route element={<RoleRoute allowedRoles={['student']} />}>
+                <Route path="/student/dashboard" element={<StudentDashboard />} />
+                <Route path="/student/quizzes" element={<Navigate to="/student/dashboard" replace />} />
+                <Route path="/student/hackathons" element={<Navigate to="/student/dashboard" replace />} />
+              </Route>
+
+              {/* Professor features workspace */}
+              <Route element={<RoleRoute allowedRoles={['professor']} />}>
+                <Route path="/professor/dashboard" element={<ProfessorDashboard />} />
+                <Route path="/professor/quizzes" element={<Navigate to="/professor/dashboard" replace />} />
+              </Route>
+
+              {/* Club admin features workspace */}
+              <Route element={<RoleRoute allowedRoles={['club_admin']} />}>
+                <Route path="/club/dashboard" element={<ClubDashboard />} />
+                <Route path="/club/profile" element={<Navigate to="/club/dashboard" replace />} />
+                <Route path="/club/hackathons" element={<Navigate to="/club/dashboard" replace />} />
+              </Route>
+
+              {/* Judge features workspace */}
+              <Route element={<RoleRoute allowedRoles={['judge']} />}>
+                <Route path="/judge/dashboard" element={<JudgeDashboard />} />
+                <Route path="/judge/submissions" element={<Navigate to="/judge/dashboard" replace />} />
+              </Route>
+
+              {/* System Admin workspace */}
+              <Route element={<RoleRoute allowedRoles={['admin']} />}>
+                <Route path="/admin/dashboard" element={<AdminDashboard />} />
+                <Route path="/admin/approvals" element={<Navigate to="/admin/dashboard" replace />} />
+              </Route>
+            </Route>
+          </Route>
+
+          {/* Catch-all navigation fallback redirection */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
