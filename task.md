@@ -22,5 +22,9 @@
   - [x] Verify error boundary rendering by injecting rendering errors
   - [x] Perform keyboard/accessibility reviews on focus rings and forms
   - [x] Perform responsive layout reviews (Desktop, Tablet, Mobile)
+- [x] Full System QA, Security & Regression Testing
+  - [x] Implement `run-all-tests.js` master QA regression pipeline runner
+  - [x] Fix database cleanups in `test-clubs.js` profile records
+  - [x] Run full regression matrix via `npm test`
   - [x] Commit all changes to git
   - [x] Push commits to origin/main
