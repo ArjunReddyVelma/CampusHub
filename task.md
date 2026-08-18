@@ -1,26 +1,21 @@
-# CampusHub Submissions & Evaluations - Task Checklist
+# CampusHub Admin Control Center & Moderations - Task Checklist
 
 - [x] Backend Enhancements & Router Mount
-  - [x] Add `judgingCriteria` to `Hackathon.js` model
-  - [x] Update `getHackathons` inside `hackathonController.js` to restrict queries for judges
-  - [x] Add `getHackathonSubmissions` to `submissionController.js`
-  - [x] Add `getSubmission` to `submissionController.js`
-  - [x] Register `GET /api/v1/hackathons/:hackathonId/submissions` inside `hackathonRoutes.js`
-  - [x] Register `GET /api/v1/submissions/:id` inside `submissionRoutes.js`
+  - [x] Support `status` parameter filtering in `getClubs` in `clubController.js`
+  - [x] Implement `getUsers`, `updateUserRole`, and `toggleUserStatus` in `adminController.js` with self-protection and last-admin security rules
+  - [x] Map user management endpoints in `adminRoutes.js`
 - [x] Page Implementations & Router Mount
-  - [x] Update `StudentSubmissions.jsx` scorecard review format
-  - [x] Update `ClubHackathonCreate.jsx` to configure custom `judgingCriteria`
-  - [x] Implement `JudgeSubmissions.jsx`
-  - [x] Implement `JudgeEvaluate.jsx` (with dynamic criteria and previous scores pre-fill)
-  - [x] Update `App.jsx` to map judge routes
+  - [x] Implement `AdminDashboard.jsx` (with metrics widgets, user management console, and announcement broadcaster)
+  - [x] Implement `AdminApprovals.jsx` (with club status approval list)
+  - [x] Update `App.jsx` to map admin routes
 - [x] Verification and E2E Test
   - [x] Confirm successful production build (`npm run build`)
   - [x] Run lint checks (`npm run lint`)
   - [x] Verify End-to-End Workflow:
-    - [x] Create Hackathon with custom criteria & assign judge
-    - [x] Student submits project details
-    - [x] Judge reviews and evaluates with dynamic criteria scores
-    - [x] Student sees dynamically populated scorecard matching input
-    - [x] Verify route guards, cross-club permissions, and unassigned judge blockages
+    - [x] Create and approve student clubs with persistence checks
+    - [x] Suspend user, verify login blockage, reactivate, verify login success
+    - [x] Change role student -> judge, verify judge dashboard layout routes correctly
+    - [x] Admin global announcement creation, student announcement feed delivery check
+    - [x] Verify route guards, non-admin blocks, self-protection, and last-admin demotion blocks
   - [x] Commit all changes to git
   - [x] Push commits to origin/main
