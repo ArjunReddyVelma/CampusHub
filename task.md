@@ -1,21 +1,26 @@
-# CampusHub Admin Control Center & Moderations - Task Checklist
+# CampusHub Performance & Accessibility - Task Checklist
 
-- [x] Backend Enhancements & Router Mount
-  - [x] Support `status` parameter filtering in `getClubs` in `clubController.js`
-  - [x] Implement `getUsers`, `updateUserRole`, and `toggleUserStatus` in `adminController.js` with self-protection and last-admin security rules
-  - [x] Map user management endpoints in `adminRoutes.js`
-- [x] Page Implementations & Router Mount
-  - [x] Implement `AdminDashboard.jsx` (with metrics widgets, user management console, and announcement broadcaster)
-  - [x] Implement `AdminApprovals.jsx` (with club status approval list)
-  - [x] Update `App.jsx` to map admin routes
-- [x] Verification and E2E Test
+- [x] Page Implementations & Component Refactoring
+  - [x] Implement `ErrorBoundary.jsx` in `components/common/ErrorBoundary.jsx`
+  - [x] Implement `useDocumentTitle.js` hook in `hooks/useDocumentTitle.js`
+  - [x] Refactor `Button.jsx` to support loading ARIA labels
+  - [x] Integrate `useDocumentTitle` inside pages:
+    - [x] Login.jsx
+    - [x] Register.jsx
+    - [x] StudentDashboard.jsx
+    - [x] ProfessorDashboard.jsx
+    - [x] ClubDashboard.jsx
+    - [x] JudgeDashboard.jsx
+    - [x] AdminDashboard.jsx
+- [x] Route-Level Code Splitting
+  - [x] Convert all page imports to `React.lazy()` dynamic imports in `App.jsx`
+  - [x] Integrate `<ErrorBoundary>`, `<React.Suspense>` layout wrapper inside `App.jsx`
+- [x] Verification and Audits
   - [x] Confirm successful production build (`npm run build`)
+  - [x] Record before/after entry JavaScript bundles, gzip sizes, and chunks
   - [x] Run lint checks (`npm run lint`)
-  - [x] Verify End-to-End Workflow:
-    - [x] Create and approve student clubs with persistence checks
-    - [x] Suspend user, verify login blockage, reactivate, verify login success
-    - [x] Change role student -> judge, verify judge dashboard layout routes correctly
-    - [x] Admin global announcement creation, student announcement feed delivery check
-    - [x] Verify route guards, non-admin blocks, self-protection, and last-admin demotion blocks
+  - [x] Verify error boundary rendering by injecting rendering errors
+  - [x] Perform keyboard/accessibility reviews on focus rings and forms
+  - [x] Perform responsive layout reviews (Desktop, Tablet, Mobile)
   - [x] Commit all changes to git
   - [x] Push commits to origin/main
