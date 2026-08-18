@@ -25,6 +25,7 @@ npm run dev
 *   **React Frontend (Vite)**: http://localhost:5173
 
 ## 4. Development Workflow
+*   **Admin Seeding**: Run `npm run seed:admin` inside `/server` to seed the initial system administrator. Ensure `ADMIN_NAME`, `ADMIN_EMAIL`, and `ADMIN_PASSWORD` are configured.
 *   **Create feature branch**: `feature/your-feature-name`
 *   **Check code quality**: Run linters if configured.
 *   **Commit format**: Use semantic commits, e.g. `feat: implement user registration`

@@ -7,11 +7,11 @@ All API requests are prefixed with `/api/v1/`.
     *   *Response*: `{"success": true, "message": "CampusHub API is healthy"}`
 
 ## 2. Authentication
-*   `POST /api/v1/auth/register`: Create a new user account (role: student/professor).
+*   `POST /api/v1/auth/register`: Disabled for public registration (returns `403 Forbidden`). Only enabled for compatibility tests if `ALLOW_PUBLIC_REGISTRATION=true` is set.
 *   `POST /api/v1/auth/login`: Authenticate credentials, set HttpOnly Cookie token.
 *   `POST /api/v1/auth/logout`: Expire HttpOnly Cookie token.
 *   `GET /api/v1/auth/me`: Get current logged-in user profile.
-*   `PATCH /api/v1/auth/change-password`: Change user password securely.
+*   `PATCH /api/v1/auth/change-password`: Change user password securely and clears `mustChangePassword = false`.
 
 ## 3. Profiles
 *   `GET /api/v1/users/me`: Fetch profile.
@@ -64,5 +64,7 @@ All API requests are prefixed with `/api/v1/`.
 
 ## 12. System Admin
 *   `GET /api/v1/admin/users`: List users.
+*   `POST /api/v1/admin/users`: Create/provision a new university user (Student, Professor, Club Admin, Judge, Admin).
+*   `POST /api/v1/admin/users/import`: Bulk import university users via raw CSV.
 *   `GET /api/v1/admin/statistics`: Fetch platform usage logs.
 *   `PATCH /api/v1/admin/users/:id/status`: Moderate user states.
