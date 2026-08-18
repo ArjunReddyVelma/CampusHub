@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const User = require('../models/User');
 const Club = require('../models/Club');
 const Hackathon = require('../models/Hackathon');
@@ -183,7 +184,7 @@ const createUser = async (req, res, next) => {
     }
 
     // Validate email format
-    if (!email || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    if (!email || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(email)) {
       return res.status(400).json({
         success: false,
         message: 'Please add a valid email'
@@ -363,7 +364,7 @@ const importUsers = async (req, res, next) => {
       }
       seenEmails.add(email.toLowerCase());
 
-      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,6})+$/.test(email)) {
         errors.push(`Row ${rowIndex}: Invalid email format '${email}'`);
         continue;
       }
@@ -433,40 +434,100 @@ const importUsers = async (req, res, next) => {
       return res.status(400).json({ success: false, errors });
     }
 
-    const createdUsers = [];
-    for (const row of validatedRows) {
-      const tempPassword = 'TemporaryPassword123!';
-      const user = await User.create({
-        name: row.name,
-        email: row.email,
-        password: tempPassword,
-        role: row.role,
-        mustChangePassword: true,
-        accountSource: 'institution',
-        universityId: row.universityId,
-        employeeId: row.employeeId
-      });
+    let session = null;
+    let useTransaction = true;
+    let transactionFailedWithReplicaSet = false;
 
-      try {
-        if (row.role === ROLES.STUDENT) {
-          await StudentProfile.create({
-            user: user._id,
+    const createdUsers = [];
+
+    try {
+      session = await mongoose.startSession();
+      await session.withTransaction(async () => {
+        for (const row of validatedRows) {
+          const tempPassword = 'TemporaryPassword123!';
+          const [user] = await User.create([{
+            name: row.name,
+            email: row.email,
+            password: tempPassword,
+            role: row.role,
+            mustChangePassword: true,
+            accountSource: 'institution',
             universityId: row.universityId,
-            department: row.department,
-            year: row.year
-          });
-        } else if (row.role === ROLES.PROFESSOR) {
-          await ProfessorProfile.create({
-            user: user._id,
-            department: row.department,
-            officeLocation: ''
-          });
+            employeeId: row.employeeId
+          }], { session });
+
+          if (row.role === ROLES.STUDENT) {
+            await StudentProfile.create([{
+              user: user._id,
+              universityId: row.universityId,
+              department: row.department,
+              year: row.year
+            }], { session });
+          } else if (row.role === ROLES.PROFESSOR) {
+            await ProfessorProfile.create([{
+              user: user._id,
+              department: row.department,
+              officeLocation: ''
+            }], { session });
+          }
+          createdUsers.push(user);
         }
-      } catch (profileErr) {
-        await User.findByIdAndDelete(user._id);
-        throw profileErr;
+      });
+    } catch (txErr) {
+      if (txErr.message && txErr.message.includes('Transaction numbers are only allowed')) {
+        transactionFailedWithReplicaSet = true;
+        useTransaction = false;
+        createdUsers.length = 0; // Reset array for clean fallback
+      } else {
+        throw txErr;
       }
-      createdUsers.push(user);
+    } finally {
+      if (session) {
+        await session.endSession();
+      }
+    }
+
+    if (transactionFailedWithReplicaSet || !useTransaction) {
+      // Standalone node manual rollback fallback
+      try {
+        for (const row of validatedRows) {
+          const tempPassword = 'TemporaryPassword123!';
+          const user = await User.create({
+            name: row.name,
+            email: row.email,
+            password: tempPassword,
+            role: row.role,
+            mustChangePassword: true,
+            accountSource: 'institution',
+            universityId: row.universityId,
+            employeeId: row.employeeId
+          });
+          createdUsers.push(user);
+
+          if (row.role === ROLES.STUDENT) {
+            await StudentProfile.create({
+              user: user._id,
+              universityId: row.universityId,
+              department: row.department,
+              year: row.year
+            });
+          } else if (row.role === ROLES.PROFESSOR) {
+            await ProfessorProfile.create({
+              user: user._id,
+              department: row.department,
+              officeLocation: ''
+            });
+          }
+        }
+      } catch (batchErr) {
+        // Rollback created users
+        for (const user of createdUsers) {
+          await User.findByIdAndDelete(user._id);
+          await StudentProfile.deleteOne({ user: user._id });
+          await ProfessorProfile.deleteOne({ user: user._id });
+        }
+        throw batchErr;
+      }
     }
 
     res.status(201).json({
