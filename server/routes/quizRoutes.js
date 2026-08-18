@@ -7,7 +7,7 @@ const {
   deleteQuiz
 } = require('../controllers/quizController');
 const { addQuestion } = require('../controllers/questionController');
-const { startAttempt } = require('../controllers/attemptController');
+const { startAttempt, getQuizAttempts } = require('../controllers/attemptController');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -29,6 +29,7 @@ router
 
 router
   .route('/:quizId/attempts')
-  .post(protect, authorize('student'), startAttempt);
+  .post(protect, authorize('student'), startAttempt)
+  .get(protect, authorize('professor', 'admin'), getQuizAttempts);
 
 module.exports = router;

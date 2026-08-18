@@ -264,9 +264,38 @@ const getMyAttempts = async (req, res, next) => {
   }
 };
 
+// @desc    Get all attempts for a quiz (Professor only)
+// @route   GET /api/v1/quizzes/:quizId/attempts
+// @access  Private (Professor or Admin)
+const getQuizAttempts = async (req, res, next) => {
+  try {
+    const quiz = await Quiz.findById(req.params.quizId);
+    if (!quiz) {
+      return res.status(404).json({ success: false, message: 'Quiz not found' });
+    }
+
+    if (quiz.professor.toString() !== req.user.id && req.user.role !== ROLES.ADMIN) {
+      return res.status(403).json({ success: false, message: 'Not authorized to view results for this quiz' });
+    }
+
+    const attempts = await QuizAttempt.find({ quiz: req.params.quizId })
+      .populate('student', 'name email')
+      .sort('-submittedAt');
+
+    res.status(200).json({
+      success: true,
+      message: 'Quiz attempts retrieved successfully',
+      data: { attempts }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   startAttempt,
   submitAttempt,
   getAttempt,
-  getMyAttempts
+  getMyAttempts,
+  getQuizAttempts
 };

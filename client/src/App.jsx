@@ -29,6 +29,12 @@ import StudentNotifications from './pages/StudentNotifications';
 import StudentProfilePage from './pages/StudentProfilePage';
 
 import ProfessorDashboard from './pages/ProfessorDashboard';
+import ProfessorQuizzes from './pages/ProfessorQuizzes';
+import ProfessorQuizCreate from './pages/ProfessorQuizCreate';
+import ProfessorQuestions from './pages/ProfessorQuestions';
+import ProfessorQuizPreview from './pages/ProfessorQuizPreview';
+import ProfessorQuizResults from './pages/ProfessorQuizResults';
+
 import ClubDashboard from './pages/ClubDashboard';
 import JudgeDashboard from './pages/JudgeDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -63,10 +69,14 @@ function App() {
                 <Route path="/student/profile" element={<StudentProfilePage />} />
               </Route>
 
-              {/* Professor features workspace */}
               <Route element={<RoleRoute allowedRoles={['professor']} />}>
                 <Route path="/professor/dashboard" element={<ProfessorDashboard />} />
-                <Route path="/professor/quizzes" element={<Navigate to="/professor/dashboard" replace />} />
+                <Route path="/professor/quizzes" element={<ProfessorQuizzes />} />
+                <Route path="/professor/quizzes/create" element={<ProfessorQuizCreate />} />
+                <Route path="/professor/quizzes/:id/edit" element={<ProfessorQuizCreate />} />
+                <Route path="/professor/quizzes/:id/questions" element={<ProfessorQuestions />} />
+                <Route path="/professor/quizzes/:id/preview" element={<ProfessorQuizPreview />} />
+                <Route path="/professor/quizzes/:id/results" element={<ProfessorQuizResults />} />
               </Route>
 
               {/* Club admin features workspace */}
