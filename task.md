@@ -32,4 +32,15 @@
   - [x] Verify CORS credential settings and origin matching rules
   - [x] Perform production E2E simulated checks
   - [x] Generate production verification checklist and QA reports
-  - [x] Push final state to origin/main
+- [x] Institution-Managed Authentication & Account Provisioning
+  - [x] Add institutional profile fields (mustChangePassword, employeeId, universityId) to User Schema
+  - [x] Disable public user registration on auth register controller by default
+  - [x] Implement admin single account provisioning controller and bulk CSV import parser
+  - [x] Enforce mustChangePassword route blocks in frontend ProtectedRoute and backend protect middleware
+  - [x] Create fullscreen ChangePassword page form component
+  - [x] Remove public register action links from Welcome, Login, and Navbar views
+  - [x] Add single creation and CSV import modal interfaces in Admin Dashboard Roster
+  - [x] Create seedAdmin.js script and seed:admin npm script for bootstrapping administrators
+  - [x] Run E2E test suites with ALLOW_PUBLIC_REGISTRATION=true
+  - [x] Create test-institution-auth.js E2E checks verifying disabled registration, account provisioning, forced password change, domain checks, and suspension blocks
+  - [x] Commit and push clean code state to origin/main
