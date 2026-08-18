@@ -1,18 +1,23 @@
-# CampusHub Frontend Phase 2 - Task Checklist
+# CampusHub Student Workspace - Task Checklist
 
-- [x] Centralized Helpers & Layouts
-  - [x] Implement `roleRedirect.js` helper mapping roles to dashboards
-  - [x] Implement `PublicNavbar.jsx` for clean public navigation
-  - [x] Update `PublicLayout.jsx` to render `PublicNavbar`
-- [x] Landing, Login & Registration Page Updates
-  - [x] Implement professional, responsive `Welcome.jsx` landing page
-  - [x] Implement fully validated `Login.jsx` with show/hide password toggle
-  - [x] Implement dynamic dynamic student/professor forms in `Register.jsx` with confirm password validation and toggles
-- [x] Secure Boundaries & Fallback Pages
-  - [x] Update `Unauthorized.jsx` with dashboard redirect link and 403 styling
-  - [x] Implement `NotFound.jsx` catch-all page with back navigation
+- [x] Page Placeholders & Router Mount
+  - [x] Implement `StudentQuizzes.jsx`
+  - [x] Implement `StudentQuizAttempt.jsx` (with live timer & options selection)
+  - [x] Implement `StudentQuizResult.jsx`
+  - [x] Implement `StudentHackathons.jsx`
+  - [x] Implement `StudentTeams.jsx`
+  - [x] Implement `StudentSubmissions.jsx`
+  - [x] Implement `StudentAnnouncements.jsx`
+  - [x] Implement `StudentNotifications.jsx`
+  - [x] Implement `StudentProfilePage.jsx`
+  - [x] Update `App.jsx` to map all sub-routes
+- [x] Data Integration
+  - [x] Connect `StudentDashboard.jsx` stats & active quizzes
+  - [x] Connect quizzes attempts start & submit POST calls
+  - [x] Connect hackathons & teams invites GET/POST flows
+  - [x] Connect submissions, announcements & notifications mark-as-read
+  - [x] Connect profile portfolio modifications
 - [x] Verification and Build Checks
-  - [x] Wire routing catch-all wildcard `*` route in `App.jsx`
-  - [x] Verify execution: build successful (`npm run build`)
-  - [x] Verify execution: linter clean (`npm run lint`)
+  - [x] Confirm successful production build (`npm run build`)
+  - [x] Run lint checks (`npm run lint`)
   - [x] Commit all changes to git
