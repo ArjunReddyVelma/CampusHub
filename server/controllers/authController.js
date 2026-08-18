@@ -11,6 +11,13 @@ const register = async (req, res, next) => {
   const { name, email, password, role, universityId, department, year, officeLocation } = req.body;
 
   try {
+    if (process.env.ALLOW_PUBLIC_REGISTRATION !== 'true') {
+      return res.status(403).json({
+        success: false,
+        message: 'Public registration is disabled. Please contact your university administrator.'
+      });
+    }
+
     // Validate role is public
     if (role && ![ROLES.STUDENT, ROLES.PROFESSOR].includes(role)) {
       return res.status(400).json({
@@ -202,12 +209,22 @@ const changePassword = async (req, res, next) => {
 
     // Set new password (will be hashed in pre-save hook)
     user.password = newPassword;
+    user.mustChangePassword = false;
     await user.save();
 
     res.status(200).json({
       success: true,
       message: 'Password changed successfully',
-      data: {}
+      data: {
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          isActive: user.isActive,
+          mustChangePassword: user.mustChangePassword
+        }
+      }
     });
   } catch (err) {
     next(err);

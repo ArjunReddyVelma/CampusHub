@@ -35,6 +35,29 @@ const UserSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true
+    },
+    mustChangePassword: {
+      type: Boolean,
+      default: false
+    },
+    accountSource: {
+      type: String,
+      enum: ['institution', 'system'],
+      default: 'institution'
+    },
+    universityId: {
+      type: String,
+      sparse: true,
+      index: true
+    },
+    employeeId: {
+      type: String,
+      sparse: true,
+      index: true
+    },
+    emailVerified: {
+      type: Boolean,
+      default: false
     }
   },
   {

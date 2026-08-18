@@ -41,6 +41,22 @@ const protect = async (req, res, next) => {
       });
     }
 
+    if (req.user.mustChangePassword) {
+      const reqUrl = req.originalUrl.split('?')[0];
+      const bypassUrls = [
+        '/api/v1/auth/me',
+        '/api/v1/auth/change-password',
+        '/api/v1/auth/logout'
+      ];
+      if (!bypassUrls.includes(reqUrl)) {
+        return res.status(403).json({
+          success: false,
+          message: 'Password change required before accessing other resources',
+          mustChangePassword: true
+        });
+      }
+    }
+
     next();
   } catch (err) {
     return res.status(401).json({
