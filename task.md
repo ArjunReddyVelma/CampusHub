@@ -1,26 +1,26 @@
-# CampusHub Club Admin & Hackathon - Task Checklist
+# CampusHub Submissions & Evaluations - Task Checklist
 
-- [x] Backend Adjustments & Route Registration
-  - [x] Update `getHackathons` in `hackathonController.js` to support backend filtering by `club`
-  - [x] Implement `getMyClub` in `clubController.js` and map route
-  - [x] Implement `getClubDashboard` in `dashboardController.js` and map route
+- [x] Backend Enhancements & Router Mount
+  - [x] Add `judgingCriteria` to `Hackathon.js` model
+  - [x] Update `getHackathons` inside `hackathonController.js` to restrict queries for judges
+  - [x] Add `getHackathonSubmissions` to `submissionController.js`
+  - [x] Add `getSubmission` to `submissionController.js`
+  - [x] Register `GET /api/v1/hackathons/:hackathonId/submissions` inside `hackathonRoutes.js`
+  - [x] Register `GET /api/v1/submissions/:id` inside `submissionRoutes.js`
 - [x] Page Implementations & Router Mount
-  - [x] Implement `ClubDashboard.jsx`
-  - [x] Implement `ClubProfile.jsx` (with new registration and settings updating)
-  - [x] Implement `ClubHackathons.jsx` (hackathon list with drafts tab)
-  - [x] Implement `ClubHackathonCreate.jsx` (with timings and team size validators)
-  - [x] Implement `ClubHackathonPreview.jsx`
-  - [x] Implement `StudentHackathonDetail.jsx` (with team registration and invitations dispatcher)
-  - [x] Update `App.jsx` to map all sub-routes
+  - [x] Update `StudentSubmissions.jsx` scorecard review format
+  - [x] Update `ClubHackathonCreate.jsx` to configure custom `judgingCriteria`
+  - [x] Implement `JudgeSubmissions.jsx`
+  - [x] Implement `JudgeEvaluate.jsx` (with dynamic criteria and previous scores pre-fill)
+  - [x] Update `App.jsx` to map judge routes
 - [x] Verification and E2E Test
   - [x] Confirm successful production build (`npm run build`)
   - [x] Run lint checks (`npm run lint`)
   - [x] Verify End-to-End Workflow:
-    - [x] Login as club admin & create club profile (status: pending)
-    - [x] Login as admin & approve club status
-    - [x] Login as club admin & create hackathon draft
-    - [x] Edit, preview, and publish hackathon
-    - [x] Login as Student 1, create team (register) & invite Student 2
-    - [x] Login as Student 2 & accept invitation
-    - [x] Verify security route guards & unauthorized editing
+    - [x] Create Hackathon with custom criteria & assign judge
+    - [x] Student submits project details
+    - [x] Judge reviews and evaluates with dynamic criteria scores
+    - [x] Student sees dynamically populated scorecard matching input
+    - [x] Verify route guards, cross-club permissions, and unassigned judge blockages
   - [x] Commit all changes to git
+  - [x] Push commits to origin/main
