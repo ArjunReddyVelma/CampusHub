@@ -13,13 +13,20 @@ const suites = [
   { name: 'Professor E2E', file: 'test-professor-e2e.js' },
   { name: 'Club Admin E2E', file: 'test-club-e2e.js' },
   { name: 'Submissions & Judging E2E', file: 'test-submissions-e2e.js' },
-  { name: 'Admin Console E2E', file: 'test-admin-e2e.js' }
+  { name: 'Admin Console E2E', file: 'test-admin-e2e.js' },
+  { name: 'Institution Auth', file: 'test-institution-auth.js', allowPublicReg: 'false' }
 ];
 
 const runSuite = (suite) => {
   return new Promise((resolve) => {
     const start = Date.now();
-    const child = fork(path.join(__dirname, suite.file), [], { stdio: 'pipe' });
+    const child = fork(path.join(__dirname, suite.file), [], {
+      stdio: 'pipe',
+      env: {
+        ...process.env,
+        ALLOW_PUBLIC_REGISTRATION: suite.allowPublicReg !== undefined ? suite.allowPublicReg : 'true'
+      }
+    });
     
     let stdout = '';
     let stderr = '';

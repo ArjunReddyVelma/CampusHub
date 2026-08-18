@@ -17,7 +17,8 @@ const runTests = async () => {
     await User.deleteMany({});
     await Club.deleteMany({});
     await Hackathon.deleteMany({});
-    console.log('Cleaned test database collections');
+    await Hackathon.ensureIndexes();
+    console.log('Cleaned test database collections and ensured indexes');
 
     server = app.listen(PORT, async () => {
       console.log(`Search test server running on port ${PORT}`);
