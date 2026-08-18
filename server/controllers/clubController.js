@@ -48,6 +48,9 @@ const getClubs = async (req, res, next) => {
 
     if (req.user && req.user.role === ROLES.ADMIN) {
       query = {};
+      if (req.query.status) {
+        query.status = req.query.status;
+      }
     }
 
     if (req.query.search) {

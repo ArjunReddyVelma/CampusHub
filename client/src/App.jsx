@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthProvider';
 
 // Layout wrappers
@@ -48,6 +48,7 @@ import JudgeSubmissions from './pages/JudgeSubmissions';
 import JudgeEvaluate from './pages/JudgeEvaluate';
 
 import AdminDashboard from './pages/AdminDashboard';
+import AdminApprovals from './pages/AdminApprovals';
 
 function App() {
   return (
@@ -110,7 +111,7 @@ function App() {
               {/* System Admin workspace */}
               <Route element={<RoleRoute allowedRoles={['admin']} />}>
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                <Route path="/admin/approvals" element={<Navigate to="/admin/dashboard" replace />} />
+                <Route path="/admin/approvals" element={<AdminApprovals />} />
               </Route>
             </Route>
           </Route>
