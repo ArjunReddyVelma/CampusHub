@@ -1,20 +1,26 @@
-# CampusHub Professor Quiz Creation - Task Checklist
+# CampusHub Club Admin & Hackathon - Task Checklist
 
+- [x] Backend Adjustments & Route Registration
+  - [x] Update `getHackathons` in `hackathonController.js` to support backend filtering by `club`
+  - [x] Implement `getMyClub` in `clubController.js` and map route
+  - [x] Implement `getClubDashboard` in `dashboardController.js` and map route
 - [x] Page Implementations & Router Mount
-  - [x] Implement `ProfessorQuizzes.jsx`
-  - [x] Implement `ProfessorQuizCreate.jsx`
-  - [x] Implement `ProfessorQuestions.jsx`
-  - [x] Implement `ProfessorQuizPreview.jsx`
-  - [x] Implement `ProfessorQuizResults.jsx`
+  - [x] Implement `ClubDashboard.jsx`
+  - [x] Implement `ClubProfile.jsx` (with new registration and settings updating)
+  - [x] Implement `ClubHackathons.jsx` (hackathon list with drafts tab)
+  - [x] Implement `ClubHackathonCreate.jsx` (with timings and team size validators)
+  - [x] Implement `ClubHackathonPreview.jsx`
+  - [x] Implement `StudentHackathonDetail.jsx` (with team registration and invitations dispatcher)
   - [x] Update `App.jsx` to map all sub-routes
 - [x] Verification and E2E Test
   - [x] Confirm successful production build (`npm run build`)
   - [x] Run lint checks (`npm run lint`)
   - [x] Verify End-to-End Workflow:
-    - [x] Create test quiz
-    - [x] Add 3 questions
-    - [x] Preview quiz
-    - [x] Publish quiz
-    - [x] Attempt as student
-    - [x] Inspect results as professor
+    - [x] Login as club admin & create club profile (status: pending)
+    - [x] Login as admin & approve club status
+    - [x] Login as club admin & create hackathon draft
+    - [x] Edit, preview, and publish hackathon
+    - [x] Login as Student 1, create team (register) & invite Student 2
+    - [x] Login as Student 2 & accept invitation
+    - [x] Verify security route guards & unauthorized editing
   - [x] Commit all changes to git
