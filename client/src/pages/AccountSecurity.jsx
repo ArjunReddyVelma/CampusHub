@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { useAuth } from '../hooks/useAuth';
 import authService from '../services/authService';
 import Button from '../components/common/Button';
 import ErrorMessage from '../components/common/ErrorMessage';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const AccountSecurity = () => {
-  const { user } = useAuth();
   useDocumentTitle('CampusHub | Account Security');
 
   const [currentPassword, setCurrentPassword] = useState('');

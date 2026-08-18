@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import authService from '../services/authService';
 import Button from '../components/common/Button';
@@ -7,7 +8,8 @@ import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const ChangePassword = () => {
   const { refreshUser } = useAuth();
-  useDocumentTitle('CampusHub | Change Password');
+  const navigate = useNavigate();
+  useDocumentTitle('CampusHub | Set Secure Password');
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -30,8 +32,33 @@ const ChangePassword = () => {
       return;
     }
 
-    if (newPassword.length < 6) {
-      setError('New password must be at least 6 characters long');
+    if (newPassword.length < 8) {
+      setError('New password must be at least 8 characters long');
+      return;
+    }
+
+    if (!/[A-Z]/.test(newPassword)) {
+      setError('New password must contain at least one uppercase letter');
+      return;
+    }
+
+    if (!/[a-z]/.test(newPassword)) {
+      setError('New password must contain at least one lowercase letter');
+      return;
+    }
+
+    if (!/[0-9]/.test(newPassword)) {
+      setError('New password must contain at least one number');
+      return;
+    }
+
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(newPassword)) {
+      setError('New password must contain at least one special character');
+      return;
+    }
+
+    if (newPassword === currentPassword) {
+      setError('New password cannot be the same as the current password');
       return;
     }
 
@@ -44,11 +71,41 @@ const ChangePassword = () => {
     try {
       await authService.changePassword({ currentPassword, newPassword });
       setSuccess(true);
-      setTimeout(async () => {
-        await refreshUser();
-      }, 1500);
+      
+      // 1. Refresh authenticated user using /auth/me.
+      const res = await authService.getCurrentUser();
+      
+      if (res && res.success && res.data && res.data.user) {
+        const loggedUser = res.data.user;
+        
+        // 2. Confirm mustChangePassword === false.
+        if (loggedUser.mustChangePassword === false) {
+          setTimeout(() => {
+            // Update auth state on context
+            refreshUser();
+            
+            // 3. Navigate to the user's role dashboard using replace: true
+            const redirectMap = {
+              student: '/student/dashboard',
+              professor: '/professor/dashboard',
+              club_admin: '/club/dashboard',
+              judge: '/judge/dashboard',
+              admin: '/admin/dashboard'
+            };
+            const targetPath = redirectMap[loggedUser.role] || '/login';
+            navigate(targetPath, { replace: true });
+          }, 1500);
+        } else {
+          setError('Failed to confirm password change state on security server.');
+          setSuccess(false);
+        }
+      } else {
+        setError('Failed to update credentials. Please re-authenticate.');
+        setSuccess(false);
+      }
     } catch (err) {
       setError(err.message || 'Failed to change password. Please check your current password.');
+      setSuccess(false);
     } finally {
       setSubmitting(false);
     }
@@ -63,15 +120,15 @@ const ChangePassword = () => {
               CampusHub
             </span>
           </div>
-          <h2 className="text-3xl font-black text-slate-800 tracking-tight">Welcome to CampusHub</h2>
+          <h2 className="text-3xl font-black text-slate-800 tracking-tight">Set Your Secure Password</h2>
           <p className="text-sm font-medium text-slate-500 mt-2">
-            Your account was created by your university administrator. Before continuing, you must create a new password.
+            Your university account was created for you by your institution. For security, you must create a new password before continuing.
           </p>
         </div>
 
         {success ? (
           <div className="bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-lg p-4 text-center font-semibold text-sm">
-            ✓ Password updated successfully! Accessing workspace...
+            ✓ Password updated successfully. Redirecting to your dashboard...
           </div>
         ) : (
           <>
@@ -186,6 +243,31 @@ const ChangePassword = () => {
                       </svg>
                     )}
                   </button>
+                </div>
+              </div>
+
+              {/* Password Requirements List */}
+              <div className="bg-slate-50 border border-slate-100 rounded-lg p-4 text-xs text-slate-500 space-y-1.5 text-left font-medium">
+                <p className="font-bold text-slate-700 uppercase tracking-wider text-[10px] mb-1">Password Requirements:</p>
+                <div className="flex items-center space-x-1.5">
+                  <span className={newPassword.length >= 8 ? "text-emerald-600" : "text-slate-400"}>✓</span>
+                  <span>Minimum 8 characters</span>
+                </div>
+                <div className="flex items-center space-x-1.5">
+                  <span className={/[A-Z]/.test(newPassword) ? "text-emerald-600" : "text-slate-400"}>✓</span>
+                  <span>At least one uppercase letter</span>
+                </div>
+                <div className="flex items-center space-x-1.5">
+                  <span className={/[a-z]/.test(newPassword) ? "text-emerald-600" : "text-slate-400"}>✓</span>
+                  <span>At least one lowercase letter</span>
+                </div>
+                <div className="flex items-center space-x-1.5">
+                  <span className={/[0-9]/.test(newPassword) ? "text-emerald-600" : "text-slate-400"}>✓</span>
+                  <span>At least one number</span>
+                </div>
+                <div className="flex items-center space-x-1.5">
+                  <span className={/[!@#$%^&*(),.?":{}|<>]/.test(newPassword) ? "text-emerald-600" : "text-slate-400"}>✓</span>
+                  <span>At least one special character (!@#$%^&amp;* etc.)</span>
                 </div>
               </div>
 

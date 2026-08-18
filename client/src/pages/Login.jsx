@@ -35,8 +35,12 @@ const Login = () => {
     setSubmitting(true);
     try {
       const res = await login({ email, password });
-      const role = res.data.user.role;
-      navigate(getDashboardPath(role), { replace: true });
+      const loggedUser = res.data.user;
+      if (loggedUser.mustChangePassword) {
+        navigate('/change-password', { replace: true });
+      } else {
+        navigate(getDashboardPath(loggedUser.role), { replace: true });
+      }
     } catch (err) {
       setError(err.message || 'Login failed. Please check credentials.');
     } finally {

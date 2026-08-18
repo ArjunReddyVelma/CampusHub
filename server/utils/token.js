@@ -30,7 +30,9 @@ const sendTokenResponse = (user, statusCode, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        isActive: user.isActive
+        isActive: user.isActive,
+        mustChangePassword: user.mustChangePassword,
+        passwordState: user.passwordState
       }
     }
   });
