@@ -30,20 +30,12 @@ const PublicNavbar = () => {
               Go to Dashboard
             </Link>
           ) : (
-            <>
-              <Link
-                to="/login"
-                className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/register"
-                className="px-4 py-2 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-sm transition-colors"
-              >
-                Register
-              </Link>
-            </>
+            <Link
+              to="/login"
+              className="text-sm font-semibold text-slate-600 hover:text-emerald-600 transition-colors"
+            >
+              Sign In
+            </Link>
           )}
         </nav>
       </div>

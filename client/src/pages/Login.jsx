@@ -47,15 +47,15 @@ const Login = () => {
   return (
     <div className="w-full max-w-md bg-white border border-slate-100 shadow-xl rounded-2xl p-8 relative">
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-black text-slate-800 tracking-tight">Sign In</h2>
-        <p className="text-sm font-semibold text-slate-400 mt-1.5">Consuming your CampusHub workspace</p>
+        <h2 className="text-3xl font-black text-slate-800 tracking-tight">CampusHub</h2>
+        <p className="text-sm font-semibold text-slate-400 mt-1.5 font-sans">Use your university credentials to sign in.</p>
       </div>
 
       <ErrorMessage message={error} className="mb-4" onDismiss={() => setError('')} />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
-          label="Email Address"
+          label="University Email"
           type="email"
           name="email"
           value={email}
@@ -113,14 +113,14 @@ const Login = () => {
         </Button>
       </form>
 
-      <div className="mt-6 flex flex-col items-center space-y-2 text-sm font-semibold text-slate-500">
+      <div className="mt-6 flex flex-col items-center space-y-2 text-sm font-semibold text-slate-500 text-center">
         <div>
-          New to CampusHub?{' '}
-          <Link to="/register" className="text-emerald-600 hover:text-emerald-700 font-bold focus:outline-none focus:underline">
-            Create an account
-          </Link>
+          Don't have an account?{' '}
+          <span className="text-slate-400 font-bold block md:inline">
+            Contact your university administrator.
+          </span>
         </div>
-        <Link to="/" className="text-slate-400 hover:text-slate-600 focus:outline-none focus:underline">
+        <Link to="/" className="text-slate-400 hover:text-slate-600 focus:outline-none focus:underline mt-2 block">
           Back to Home Page
         </Link>
       </div>

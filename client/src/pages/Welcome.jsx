@@ -60,18 +60,12 @@ const Welcome = () => {
         <p className="text-slate-500 font-medium text-base md:text-lg">
           Connect with clubs, take online assessments, build projects in hackathons, and monitor grading metrics in one cohesive platform.
         </p>
-        <div className="pt-4 flex items-center justify-center space-x-4">
+        <div className="pt-4 flex items-center justify-center">
           <Link
             to="/login"
             className="px-6 py-3 text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-lg shadow-md transition-colors"
           >
             Sign In to Workspace
-          </Link>
-          <Link
-            to="/register"
-            className="px-6 py-3 text-sm font-bold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 rounded-lg shadow-sm transition-colors"
-          >
-            Register Student/Prof
           </Link>
         </div>
       </div>
