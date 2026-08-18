@@ -98,6 +98,21 @@ const getHackathons = async (req, res, next) => {
       }
     }
 
+    if (req.query.club) {
+      if (req.user && req.user.role === ROLES.CLUB_ADMIN) {
+        const club = await Club.findOne({ owner: req.user.id });
+        if (club && club._id.toString() === req.query.club) {
+          query = { club: club._id };
+        } else {
+          query = { club: req.query.club, isPublished: true };
+        }
+      } else if (req.user && req.user.role === ROLES.ADMIN) {
+        query = { club: req.query.club };
+      } else {
+        query = { club: req.query.club, isPublished: true };
+      }
+    }
+
     if (req.query.search) {
       query.$text = { $search: req.query.search };
     }

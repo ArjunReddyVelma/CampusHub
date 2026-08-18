@@ -185,11 +185,28 @@ const moderateClubStatus = async (req, res, next) => {
   }
 };
 
+// @desc    Get logged in user's club details
+// @route   GET /api/v1/clubs/my-club
+// @access  Private (Club Admin)
+const getMyClub = async (req, res, next) => {
+  try {
+    const club = await Club.findOne({ owner: req.user.id }).populate('owner', 'name email');
+    res.status(200).json({
+      success: true,
+      message: 'Club details retrieved successfully',
+      data: { club }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createClub,
   getClubs,
   getClub,
   updateClub,
   deleteClub,
-  moderateClubStatus
+  moderateClubStatus,
+  getMyClub
 };

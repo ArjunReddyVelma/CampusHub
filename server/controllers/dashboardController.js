@@ -1,5 +1,7 @@
 const Quiz = require('../models/Quiz');
 const StudentProfile = require('../models/StudentProfile');
+const Club = require('../models/Club');
+const Hackathon = require('../models/Hackathon');
 
 // @desc    Get Student Dashboard data
 // @route   GET /api/v1/dashboard/student
@@ -77,7 +79,56 @@ const getProfessorDashboard = async (req, res, next) => {
   }
 };
 
+// @desc    Get Club Dashboard data
+// @route   GET /api/v1/dashboard/club
+// @access  Private (Club Admin)
+const getClubDashboard = async (req, res, next) => {
+  try {
+    const now = new Date();
+    const club = await Club.findOne({ owner: req.user.id });
+
+    if (!club) {
+      return res.status(200).json({
+        success: true,
+        message: 'No club registered for this administrator yet',
+        data: {
+          club: null,
+          statistics: null,
+          hackathons: []
+        }
+      });
+    }
+
+    const allHackathons = await Hackathon.find({ club: club._id });
+
+    const totalHackathons = allHackathons.length;
+    const activeHackathonsCount = allHackathons.filter(h => h.isPublished && h.startDate <= now && h.endDate >= now).length;
+    const upcomingHackathonsCount = allHackathons.filter(h => h.isPublished && h.startDate > now).length;
+    const completedHackathonsCount = allHackathons.filter(h => h.isPublished && h.endDate < now).length;
+    const draftHackathonsCount = allHackathons.filter(h => !h.isPublished).length;
+
+    res.status(200).json({
+      success: true,
+      message: 'Club dashboard retrieved successfully',
+      data: {
+        club,
+        statistics: {
+          totalHackathons,
+          activeHackathons: activeHackathonsCount,
+          upcomingHackathons: upcomingHackathonsCount,
+          completedHackathons: completedHackathonsCount,
+          draftHackathons: draftHackathonsCount
+        },
+        hackathons: allHackathons.slice(0, 5)
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getStudentDashboard,
-  getProfessorDashboard
+  getProfessorDashboard,
+  getClubDashboard
 };

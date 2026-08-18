@@ -5,7 +5,8 @@ const {
   getClub,
   updateClub,
   deleteClub,
-  moderateClubStatus
+  moderateClubStatus,
+  getMyClub
 } = require('../controllers/clubController');
 const { protect, authorize } = require('../middleware/auth');
 
@@ -38,6 +39,8 @@ router
   .route('/')
   .post(protect, authorize('club_admin', 'admin'), createClub)
   .get(optionalProtect, getClubs);
+
+router.get('/my-club', protect, authorize('club_admin'), getMyClub);
 
 router
   .route('/:id')

@@ -36,6 +36,13 @@ import ProfessorQuizPreview from './pages/ProfessorQuizPreview';
 import ProfessorQuizResults from './pages/ProfessorQuizResults';
 
 import ClubDashboard from './pages/ClubDashboard';
+import ClubProfile from './pages/ClubProfile';
+import ClubHackathons from './pages/ClubHackathons';
+import ClubHackathonCreate from './pages/ClubHackathonCreate';
+import ClubHackathonPreview from './pages/ClubHackathonPreview';
+
+import StudentHackathonDetail from './pages/StudentHackathonDetail';
+
 import JudgeDashboard from './pages/JudgeDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 
@@ -62,6 +69,7 @@ function App() {
                 <Route path="/student/attempts/:id" element={<StudentQuizAttempt />} />
                 <Route path="/student/results/:id" element={<StudentQuizResult />} />
                 <Route path="/student/hackathons" element={<StudentHackathons />} />
+                <Route path="/student/hackathons/:id" element={<StudentHackathonDetail />} />
                 <Route path="/student/teams" element={<StudentTeams />} />
                 <Route path="/student/submissions" element={<StudentSubmissions />} />
                 <Route path="/student/announcements" element={<StudentAnnouncements />} />
@@ -82,8 +90,11 @@ function App() {
               {/* Club admin features workspace */}
               <Route element={<RoleRoute allowedRoles={['club_admin']} />}>
                 <Route path="/club/dashboard" element={<ClubDashboard />} />
-                <Route path="/club/profile" element={<Navigate to="/club/dashboard" replace />} />
-                <Route path="/club/hackathons" element={<Navigate to="/club/dashboard" replace />} />
+                <Route path="/club/profile" element={<ClubProfile />} />
+                <Route path="/club/hackathons" element={<ClubHackathons />} />
+                <Route path="/club/hackathons/create" element={<ClubHackathonCreate />} />
+                <Route path="/club/hackathons/:id/edit" element={<ClubHackathonCreate />} />
+                <Route path="/club/hackathons/:id/preview" element={<ClubHackathonPreview />} />
               </Route>
 
               {/* Judge features workspace */}

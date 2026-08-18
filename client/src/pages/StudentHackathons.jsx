@@ -113,9 +113,9 @@ const StudentHackathons = () => {
                   <Button
                     variant={isRegOpen ? 'primary' : 'outline'}
                     size="sm"
-                    onClick={() => navigate(`/student/teams?hackathonId=${hackathon._id}`)}
+                    onClick={() => navigate(`/student/hackathons/${hackathon._id}`)}
                   >
-                    {isRegOpen ? 'Manage Registration / Teams' : 'View Team Details'}
+                    {isRegOpen ? 'Register / View Details' : 'View Details'}
                   </Button>
                   {isSubOpen && (
                     <Button
