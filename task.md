@@ -26,5 +26,10 @@
   - [x] Implement `run-all-tests.js` master QA regression pipeline runner
   - [x] Fix database cleanups in `test-clubs.js` profile records
   - [x] Run full regression matrix via `npm test`
-  - [x] Commit all changes to git
-  - [x] Push commits to origin/main
+- [x] Production Deployment & Verification
+  - [x] Inspect backend environment variables and database config (`MONGODB_URI`)
+  - [x] Verify HttpOnly cookie authentication and secure cookies attributes in production mode
+  - [x] Verify CORS credential settings and origin matching rules
+  - [x] Perform production E2E simulated checks
+  - [x] Generate production verification checklist and QA reports
+  - [x] Push final state to origin/main
