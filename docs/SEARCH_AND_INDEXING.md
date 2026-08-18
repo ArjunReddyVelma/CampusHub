@@ -10,6 +10,10 @@ To prevent collection scans (`COLLSCAN`) and ensure all primary search criteria 
 
 ### User Collection
 *   `email: 1` (Unique) - Accelerates credential lookup on login.
+*   `universityId: 1` (Sparse Index) - Speeds up lookup of user universityId if provisioned.
+*   `employeeId: 1` (Sparse Index) - Speeds up lookup of user employeeId if provisioned.
+
+### StudentProfile Collection
 *   `universityId: 1` (Unique) - Enforces global student uniqueness and accelerates profile association checks.
 
 ### Quiz & Question Collections
