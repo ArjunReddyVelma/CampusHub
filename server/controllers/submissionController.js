@@ -158,7 +158,42 @@ const evaluateProject = async (req, res, next) => {
   }
 };
 
+// @desc    Get user's team submission for a hackathon
+// @route   GET /api/v1/hackathons/:hackathonId/submissions/my-submission
+// @access  Private (Student)
+const getMySubmission = async (req, res, next) => {
+  try {
+    const team = await Team.findOne({
+      hackathon: req.params.hackathonId,
+      members: req.user.id
+    });
+
+    if (!team) {
+      return res.status(200).json({
+        success: true,
+        data: { submission: null }
+      });
+    }
+
+    const submission = await Submission.findOne({ team: team._id })
+      .populate('submittedBy', 'name email')
+      .populate({
+        path: 'evaluations.judge',
+        select: 'name email'
+      });
+
+    res.status(200).json({
+      success: true,
+      message: 'Submission retrieved successfully',
+      data: { submission }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   submitProject,
-  evaluateProject
+  evaluateProject,
+  getMySubmission
 };

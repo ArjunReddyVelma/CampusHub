@@ -18,6 +18,16 @@ import NotFound from './pages/NotFound';
 
 // Dashboard role pages
 import StudentDashboard from './pages/StudentDashboard';
+import StudentQuizzes from './pages/StudentQuizzes';
+import StudentQuizAttempt from './pages/StudentQuizAttempt';
+import StudentQuizResult from './pages/StudentQuizResult';
+import StudentHackathons from './pages/StudentHackathons';
+import StudentTeams from './pages/StudentTeams';
+import StudentSubmissions from './pages/StudentSubmissions';
+import StudentAnnouncements from './pages/StudentAnnouncements';
+import StudentNotifications from './pages/StudentNotifications';
+import StudentProfilePage from './pages/StudentProfilePage';
+
 import ProfessorDashboard from './pages/ProfessorDashboard';
 import ClubDashboard from './pages/ClubDashboard';
 import JudgeDashboard from './pages/JudgeDashboard';
@@ -42,8 +52,15 @@ function App() {
               {/* Student features workspace */}
               <Route element={<RoleRoute allowedRoles={['student']} />}>
                 <Route path="/student/dashboard" element={<StudentDashboard />} />
-                <Route path="/student/quizzes" element={<Navigate to="/student/dashboard" replace />} />
-                <Route path="/student/hackathons" element={<Navigate to="/student/dashboard" replace />} />
+                <Route path="/student/quizzes" element={<StudentQuizzes />} />
+                <Route path="/student/attempts/:id" element={<StudentQuizAttempt />} />
+                <Route path="/student/results/:id" element={<StudentQuizResult />} />
+                <Route path="/student/hackathons" element={<StudentHackathons />} />
+                <Route path="/student/teams" element={<StudentTeams />} />
+                <Route path="/student/submissions" element={<StudentSubmissions />} />
+                <Route path="/student/announcements" element={<StudentAnnouncements />} />
+                <Route path="/student/notifications" element={<StudentNotifications />} />
+                <Route path="/student/profile" element={<StudentProfilePage />} />
               </Route>
 
               {/* Professor features workspace */}

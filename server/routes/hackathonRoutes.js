@@ -7,7 +7,7 @@ const {
   deleteHackathon
 } = require('../controllers/hackathonController');
 const { createTeam } = require('../controllers/teamController');
-const { submitProject } = require('../controllers/submissionController');
+const { submitProject, getMySubmission } = require('../controllers/submissionController');
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
@@ -51,5 +51,7 @@ router
 router
   .route('/:hackathonId/submissions')
   .post(protect, authorize('student'), submitProject);
+
+router.get('/:hackathonId/submissions/my-submission', protect, authorize('student'), getMySubmission);
 
 module.exports = router;

@@ -248,8 +248,25 @@ const getAttempt = async (req, res, next) => {
   }
 };
 
+// @desc    Get current user attempts
+// @route   GET /api/v1/attempts
+// @access  Private (Student)
+const getMyAttempts = async (req, res, next) => {
+  try {
+    const attempts = await QuizAttempt.find({ student: req.user.id }).populate('quiz');
+    res.status(200).json({
+      success: true,
+      message: 'Attempts retrieved successfully',
+      data: { attempts }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   startAttempt,
   submitAttempt,
-  getAttempt
+  getAttempt,
+  getMyAttempts
 };

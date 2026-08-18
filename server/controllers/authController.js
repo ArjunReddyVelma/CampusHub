@@ -214,10 +214,44 @@ const changePassword = async (req, res, next) => {
   }
 };
 
+// @desc    Update student/professor profile
+// @route   PUT /api/v1/auth/profile
+// @access  Private
+const updateProfile = async (req, res, next) => {
+  try {
+    let profile;
+    if (req.user.role === 'student') {
+      const { bio, githubUrl, linkedinUrl, skills } = req.body;
+      profile = await StudentProfile.findOneAndUpdate(
+        { user: req.user.id },
+        { bio, githubUrl, linkedinUrl, skills },
+        { new: true, runValidators: true }
+      );
+    } else if (req.user.role === 'professor') {
+      const ProfessorProfile = require('../models/ProfessorProfile');
+      const { officeLocation } = req.body;
+      profile = await ProfessorProfile.findOneAndUpdate(
+        { user: req.user.id },
+        { officeLocation },
+        { new: true, runValidators: true }
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      data: { profile }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   register,
   login,
   logout,
   getMe,
-  changePassword
+  changePassword,
+  updateProfile
 };

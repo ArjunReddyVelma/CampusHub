@@ -343,11 +343,61 @@ const removeMember = async (req, res, next) => {
   }
 };
 
+// @desc    Get user's pending invitations
+// @route   GET /api/v1/team-invitations
+// @access  Private (Student)
+const getMyInvitations = async (req, res, next) => {
+  try {
+    const invitations = await TeamInvitation.find({
+      invitee: req.user.id,
+      status: 'pending'
+    }).populate({
+      path: 'team',
+      populate: { path: 'hackathon' }
+    }).populate('inviter', 'name email');
+
+    res.status(200).json({
+      success: true,
+      message: 'Invitations retrieved successfully',
+      data: { invitations }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Get student's team for a hackathon
+// @route   GET /api/v1/teams/my-team
+// @access  Private (Student)
+const getMyTeam = async (req, res, next) => {
+  try {
+    const { hackathonId } = req.query;
+    if (!hackathonId) {
+      return res.status(400).json({ success: false, message: 'Please provide hackathonId' });
+    }
+
+    const team = await Team.findOne({
+      hackathon: hackathonId,
+      members: req.user.id
+    }).populate('members', 'name email').populate('leader', 'name email');
+
+    res.status(200).json({
+      success: true,
+      message: 'Team retrieved successfully',
+      data: { team }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   createTeam,
   inviteMember,
   acceptInvitation,
   rejectInvitation,
   leaveTeam,
-  removeMember
+  removeMember,
+  getMyInvitations,
+  getMyTeam
 };
