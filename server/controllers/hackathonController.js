@@ -95,6 +95,8 @@ const getHackathons = async (req, res, next) => {
             ]
           };
         }
+      } else if (req.user.role === ROLES.JUDGE) {
+        query = { isPublished: true, judges: req.user.id };
       }
     }
 
@@ -108,6 +110,8 @@ const getHackathons = async (req, res, next) => {
         }
       } else if (req.user && req.user.role === ROLES.ADMIN) {
         query = { club: req.query.club };
+      } else if (req.user && req.user.role === ROLES.JUDGE) {
+        query = { club: req.query.club, isPublished: true, judges: req.user.id };
       } else {
         query = { club: req.query.club, isPublished: true };
       }

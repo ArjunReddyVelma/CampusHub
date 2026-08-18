@@ -44,6 +44,9 @@ import ClubHackathonPreview from './pages/ClubHackathonPreview';
 import StudentHackathonDetail from './pages/StudentHackathonDetail';
 
 import JudgeDashboard from './pages/JudgeDashboard';
+import JudgeSubmissions from './pages/JudgeSubmissions';
+import JudgeEvaluate from './pages/JudgeEvaluate';
+
 import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
@@ -100,7 +103,8 @@ function App() {
               {/* Judge features workspace */}
               <Route element={<RoleRoute allowedRoles={['judge']} />}>
                 <Route path="/judge/dashboard" element={<JudgeDashboard />} />
-                <Route path="/judge/submissions" element={<Navigate to="/judge/dashboard" replace />} />
+                <Route path="/judge/submissions" element={<JudgeSubmissions />} />
+                <Route path="/judge/submissions/:id/evaluate" element={<JudgeEvaluate />} />
               </Route>
 
               {/* System Admin workspace */}

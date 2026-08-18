@@ -116,6 +116,10 @@ const HackathonSchema = new mongoose.Schema(
         ref: 'User'
       }
     ],
+    judgingCriteria: {
+      type: [String],
+      default: ['Innovation', 'Technical Execution', 'UI/UX', 'Impact', 'Presentation']
+    },
     isPublished: {
       type: Boolean,
       default: false

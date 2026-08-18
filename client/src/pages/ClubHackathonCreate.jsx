@@ -23,6 +23,7 @@ const ClubHackathonCreate = () => {
   const [rules, setRules] = useState('');
   const [eligibility, setEligibility] = useState('');
   const [skillsRequired, setSkillsRequired] = useState(''); // comma-separated
+  const [judgingCriteria, setJudgingCriteria] = useState('Innovation, Technical Execution, UI/UX, Impact, Presentation'); // comma-separated
   
   // Timings
   const [startDate, setStartDate] = useState('');
@@ -72,6 +73,7 @@ const ClubHackathonCreate = () => {
           setRules(h.rules || '');
           setEligibility(h.eligibility || '');
           setSkillsRequired(h.skillsRequired?.join(', ') || '');
+          setJudgingCriteria(h.judgingCriteria?.join(', ') || 'Innovation, Technical Execution, UI/UX, Impact, Presentation');
           setLocationType(h.locationType || 'online');
           setLocation(h.location || 'Online');
           setMinTeamSize(h.minTeamSize?.toString() || '1');
@@ -164,6 +166,7 @@ const ClubHackathonCreate = () => {
       rules,
       eligibility,
       skillsRequired: skillsRequired.split(',').map((s) => s.trim()).filter((s) => s.length > 0),
+      judgingCriteria: judgingCriteria.split(',').map((s) => s.trim()).filter((s) => s.length > 0),
       startDate: new Date(startDate),
       endDate: new Date(endDate),
       registrationDeadline: new Date(registrationDeadline),
@@ -405,6 +408,14 @@ const ClubHackathonCreate = () => {
               placeholder="React, Node.js, MongoDB"
             />
           </div>
+
+          <Input
+            label="Judging Criteria (Comma separated)"
+            value={judgingCriteria}
+            onChange={(e) => setJudgingCriteria(e.target.value)}
+            disabled={submitting}
+            placeholder="Innovation, Technical Execution, UI/UX, Impact, Presentation"
+          />
 
           <hr className="border-slate-100" />
 

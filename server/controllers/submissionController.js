@@ -1,6 +1,7 @@
 const Submission = require('../models/Submission');
 const Hackathon = require('../models/Hackathon');
 const Team = require('../models/Team');
+const Club = require('../models/Club');
 const ROLES = require('../constants/roles');
 
 // @desc    Create/Overwrite project submission
@@ -192,8 +193,98 @@ const getMySubmission = async (req, res, next) => {
   }
 };
 
+// @desc    Get all submissions for a hackathon
+// @route   GET /api/v1/hackathons/:hackathonId/submissions
+// @access  Private (Judge, Admin, Club Admin)
+const getHackathonSubmissions = async (req, res, next) => {
+  try {
+    const hackathon = await Hackathon.findById(req.params.hackathonId);
+    if (!hackathon) {
+      return res.status(404).json({ success: false, message: 'Hackathon not found' });
+    }
+
+    const isJudge = hackathon.judges.includes(req.user.id);
+    const isAdmin = req.user.role === ROLES.ADMIN;
+    
+    // Also allow the club owner who created the hackathon to view submissions
+    const club = await Club.findOne({ owner: req.user.id });
+    const isOwner = club && hackathon.club.toString() === club._id.toString();
+
+    if (!isJudge && !isAdmin && !isOwner) {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to view submissions for this hackathon'
+      });
+    }
+
+    const submissions = await Submission.find({ hackathon: req.params.hackathonId })
+      .populate('team', 'name members')
+      .populate('submittedBy', 'name email')
+      .populate({
+        path: 'evaluations.judge',
+        select: 'name email'
+      });
+
+    res.status(200).json({
+      success: true,
+      message: 'Submissions retrieved successfully',
+      data: { submissions }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Get single submission by ID
+// @route   GET /api/v1/submissions/:id
+// @access  Private (Judge, Admin, Club Admin)
+const getSubmission = async (req, res, next) => {
+  try {
+    const submission = await Submission.findById(req.params.id)
+      .populate('team', 'name members')
+      .populate('submittedBy', 'name email')
+      .populate('hackathon')
+      .populate({
+        path: 'evaluations.judge',
+        select: 'name email'
+      });
+
+    if (!submission) {
+      return res.status(404).json({ success: false, message: 'Submission not found' });
+    }
+
+    const hackathon = await Hackathon.findById(submission.hackathon);
+    if (!hackathon) {
+      return res.status(404).json({ success: false, message: 'Associated hackathon not found' });
+    }
+
+    const isJudge = hackathon.judges.includes(req.user.id);
+    const isAdmin = req.user.role === ROLES.ADMIN;
+    
+    const club = await Club.findOne({ owner: req.user.id });
+    const isOwner = club && hackathon.club.toString() === club._id.toString();
+
+    if (!isJudge && !isAdmin && !isOwner) {
+      return res.status(403).json({
+        success: false,
+        message: 'You are not authorized to view this submission'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Submission details retrieved successfully',
+      data: { submission }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   submitProject,
   evaluateProject,
-  getMySubmission
+  getMySubmission,
+  getHackathonSubmissions,
+  getSubmission
 };

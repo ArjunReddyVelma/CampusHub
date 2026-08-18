@@ -149,19 +149,13 @@ const StudentSubmissions = () => {
                         <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                           Judge: {evaluation.judge?.name || 'Anonymous Judge'}
                         </div>
-                        <div className="grid grid-cols-3 gap-4 text-xs font-semibold text-slate-500">
-                          <div>
-                            <span className="text-slate-400 block font-medium">Innovation:</span>
-                            {evaluation.innovationScore}/10
-                          </div>
-                          <div>
-                            <span className="text-slate-400 block font-medium">Technicality:</span>
-                            {evaluation.technicalScore}/10
-                          </div>
-                          <div>
-                            <span className="text-slate-400 block font-medium">Presentation:</span>
-                            {evaluation.presentationScore}/10
-                          </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-semibold text-slate-500">
+                          {evaluation.criteriaScores?.map((crit, cIdx) => (
+                            <div key={cIdx}>
+                              <span className="text-slate-400 block font-medium capitalize">{crit.criteria}:</span>
+                              {crit.score} / {crit.maxScore}
+                            </div>
+                          ))}
                         </div>
                         {evaluation.feedback && (
                           <p className="text-xs italic text-slate-500 pt-1 leading-relaxed">
