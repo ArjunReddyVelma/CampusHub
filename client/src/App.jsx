@@ -54,6 +54,7 @@ const JudgeEvaluate = React.lazy(() => import('./pages/JudgeEvaluate'));
 // Lazy-loaded System Admin workspace
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
 const AdminApprovals = React.lazy(() => import('./pages/AdminApprovals'));
+const ChangePassword = React.lazy(() => import('./pages/ChangePassword'));
 
 function App() {
   return (
@@ -72,6 +73,7 @@ function App() {
 
               {/* Secure/Protected pathways */}
               <Route element={<ProtectedRoute />}>
+                <Route path="/change-password" element={<ChangePassword />} />
                 <Route element={<DashboardLayout />}>
                   {/* Student features workspace */}
                   <Route element={<RoleRoute allowedRoles={['student']} />}>
