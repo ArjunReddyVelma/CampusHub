@@ -70,6 +70,14 @@ const seedRealisticData = async () => {
       try {
         const exists = await User.findOne({ email: userData.email.toLowerCase() });
         if (exists) {
+          if (process.env.RESET_SEED_ACCOUNTS === 'true' && process.env.NODE_ENV !== 'production') {
+            exists.password = userData.password || seedPassword;
+            exists.mustChangePassword = userData.mustChangePassword !== undefined ? userData.mustChangePassword : true;
+            exists.isActive = true;
+            await exists.save();
+            stats.created++;
+            return;
+          }
           stats.existed++;
           return;
         }

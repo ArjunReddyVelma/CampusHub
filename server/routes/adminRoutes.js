@@ -5,7 +5,8 @@ const {
   updateUserRole, 
   toggleUserStatus,
   createUser,
-  importUsers
+  importUsers,
+  resetUserPassword
 } = require('../controllers/adminController');
 const { protect, authorize } = require('../middleware/auth');
 
@@ -18,6 +19,7 @@ router.get('/dashboard', getAdminDashboard);
 router.get('/users', getUsers);
 router.post('/users', createUser);
 router.post('/users/import', importUsers);
+router.post('/users/:id/reset-password', resetUserPassword);
 router.patch('/users/:id/role', updateUserRole);
 router.patch('/users/:id/status', toggleUserStatus);
 

@@ -58,6 +58,13 @@ const UserSchema = new mongoose.Schema(
     emailVerified: {
       type: Boolean,
       default: false
+    },
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
+    passwordState: {
+      type: String,
+      enum: ['Active', 'Temporary Password', 'Password Reset Required'],
+      default: 'Active'
     }
   },
   {

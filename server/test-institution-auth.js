@@ -255,8 +255,8 @@ const executeTestSteps = async () => {
   });
 
   const dashboardData = await dashboardRes.json();
-  if (dashboardRes.status !== 403 || !dashboardData.mustChangePassword) {
-    throw new Error(`Expected access to dashboard to be blocked with 403 mustChangePassword. Status: ${dashboardRes.status}, data: ${JSON.stringify(dashboardData)}`);
+  if (dashboardRes.status !== 403 || dashboardData.code !== 'PASSWORD_CHANGE_REQUIRED') {
+    throw new Error(`Expected access to dashboard to be blocked with 403 PASSWORD_CHANGE_REQUIRED. Status: ${dashboardRes.status}, data: ${JSON.stringify(dashboardData)}`);
   }
   console.log('✓ Student was correctly blocked from standard routes before password change.');
 
@@ -511,6 +511,135 @@ const executeTestSteps = async () => {
     throw new Error('Security Error: CORS allowed an unauthorized origin!');
   }
   console.log('✓ CORS correctly blocked unauthorized origin: http://unauthorized-origin.com');
+
+  // --- Test 12: Authentication via University ID and Employee ID ---
+  console.log('\n--- Test 12: Authentication via University/Employee ID ---');
+  
+  // Create student with specific universityId
+  const studentUserObj = await User.create({
+    name: 'ID Student',
+    email: 'idstudent@university.edu',
+    password: 'password123',
+    role: 'student',
+    mustChangePassword: false,
+    universityId: 'SPSU_E2E_001'
+  });
+  await StudentProfile.create({
+    user: studentUserObj._id,
+    universityId: 'SPSU_E2E_001',
+    department: 'Computer Science',
+    year: 1
+  });
+
+  // Attempt login using universityId as the identifier
+  const idLoginRes = await fetch(`${authUrl}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'SPSU_E2E_001', password: 'password123' })
+  });
+  const idLoginData = await idLoginRes.json();
+  if (idLoginRes.status !== 200 || !idLoginData.success) {
+    throw new Error(`Expected login with universityId to succeed. Status: ${idLoginRes.status}, data: ${JSON.stringify(idLoginData)}`);
+  }
+  console.log('✓ Login via universityId SPSU_E2E_001 succeeded.');
+
+  // --- Test 13: Forgot Password Reset Flow ---
+  console.log('\n--- Test 13: Forgot Password Reset Flow ---');
+
+  // Request reset link
+  const forgotRes = await fetch(`${authUrl}/forgot-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'idstudent@university.edu' })
+  });
+  const forgotData = await forgotRes.json();
+  if (forgotRes.status !== 200 || !forgotData.success) {
+    throw new Error(`Expected forgot-password to succeed. Status: ${forgotRes.status}, data: ${JSON.stringify(forgotData)}`);
+  }
+
+  // Get token from DB directly
+  const dbUser = await User.findOne({ email: 'idstudent@university.edu' });
+  const hashedToken = dbUser.resetPasswordToken;
+  if (!hashedToken) {
+    throw new Error('Expected resetPasswordToken to be saved in database.');
+  }
+
+  // Since we hash the token using sha256 of the random bytes token:
+  // But wait! For test purposes, we can mock the reset token value by overwriting it with a known value in db
+  const testPlaintextToken = 'testresettoken123';
+  const crypto = require('crypto');
+  dbUser.resetPasswordToken = crypto.createHash('sha256').update(testPlaintextToken).digest('hex');
+  dbUser.resetPasswordExpire = Date.now() + 50000;
+  await dbUser.save();
+
+  // Call reset password with plaintext token
+  const resetRes = await fetch(`${authUrl}/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token: testPlaintextToken, password: 'newpassword123' })
+  });
+  const resetData = await resetRes.json();
+  if (resetRes.status !== 200 || !resetData.success) {
+    throw new Error(`Expected resetPassword to succeed. Status: ${resetRes.status}, data: ${JSON.stringify(resetData)}`);
+  }
+
+  // Verify that login works with new password
+  const newLoginRes = await fetch(`${authUrl}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'idstudent@university.edu', password: 'newpassword123' })
+  });
+  if (newLoginRes.status !== 200) {
+    throw new Error(`Expected login with new reset password to succeed. Status: ${newLoginRes.status}`);
+  }
+  console.log('✓ Forgot Password reset workflow E2E verified.');
+
+  // --- Test 14: Administrative Password Reset ---
+  console.log('\n--- Test 14: Administrative Password Reset Action ---');
+
+  // Trigger admin reset for student
+  const adminResetRes = await fetch(`${adminUrl}/users/${studentUserObj._id}/reset-password`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Cookie': adminCookie
+    }
+  });
+  const adminResetData = await adminResetRes.json();
+  if (adminResetRes.status !== 200 || !adminResetData.success || !adminResetData.data.tempPassword) {
+    throw new Error(`Expected admin reset password to succeed. Status: ${adminResetRes.status}, data: ${JSON.stringify(adminResetData)}`);
+  }
+
+  // Verify DB state
+  const resetUserDb = await User.findById(studentUserObj._id);
+  if (!resetUserDb.mustChangePassword || resetUserDb.passwordState !== 'Password Reset Required') {
+    throw new Error(`Expected mustChangePassword=true and passwordState=Password Reset Required. Got: ${resetUserDb.mustChangePassword}, ${resetUserDb.passwordState}`);
+  }
+
+  // Login with temporary credentials
+  const tempLoginRes = await fetch(`${authUrl}/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'idstudent@university.edu', password: adminResetData.data.tempPassword })
+  });
+  const tempLoginCookies = tempLoginRes.headers.get('set-cookie');
+  let tempLoginCookie = '';
+  if (tempLoginCookies) {
+    const match = tempLoginCookies.match(/token=([^;]+)/);
+    if (match) tempLoginCookie = match[0];
+  }
+
+  // Try accessing admin dashboard using cookie - should return 403 PASSWORD_CHANGE_REQUIRED
+  const blockedDashRes = await fetch(`${adminUrl}/dashboard`, {
+    method: 'GET',
+    headers: { 'Cookie': tempLoginCookie }
+  });
+  const blockedDashData = await blockedDashRes.json();
+  if (blockedDashRes.status !== 403 || blockedDashData.code !== 'PASSWORD_CHANGE_REQUIRED') {
+    throw new Error(`Expected access to dashboard to be blocked with 403 PASSWORD_CHANGE_REQUIRED. Status: ${blockedDashRes.status}, data: ${JSON.stringify(blockedDashData)}`);
+  }
+
+  console.log('✓ Administrative reset, passwordState transition, and forced redirect E2E verified.');
 
   console.log('\n======================================');
   console.log('✅ ALL INSTITUTION AUTHENTICATION TESTS PASSED!');

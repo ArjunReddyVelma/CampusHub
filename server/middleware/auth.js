@@ -51,8 +51,8 @@ const protect = async (req, res, next) => {
       if (!bypassUrls.includes(reqUrl)) {
         return res.status(403).json({
           success: false,
-          message: 'Password change required before accessing other resources',
-          mustChangePassword: true
+          code: 'PASSWORD_CHANGE_REQUIRED',
+          message: 'You must change your temporary password before continuing.'
         });
       }
     }

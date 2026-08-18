@@ -17,6 +17,8 @@ const Login = React.lazy(() => import('./pages/Login'));
 const Register = React.lazy(() => import('./pages/Register'));
 const Unauthorized = React.lazy(() => import('./pages/Unauthorized'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
+const ForgotPassword = React.lazy(() => import('./pages/ForgotPassword'));
+const ResetPassword = React.lazy(() => import('./pages/ResetPassword'));
 
 // Lazy-loaded Student features workspace
 const StudentDashboard = React.lazy(() => import('./pages/StudentDashboard'));
@@ -55,6 +57,7 @@ const JudgeEvaluate = React.lazy(() => import('./pages/JudgeEvaluate'));
 const AdminDashboard = React.lazy(() => import('./pages/AdminDashboard'));
 const AdminApprovals = React.lazy(() => import('./pages/AdminApprovals'));
 const ChangePassword = React.lazy(() => import('./pages/ChangePassword'));
+const AccountSecurity = React.lazy(() => import('./pages/AccountSecurity'));
 
 function App() {
   return (
@@ -69,12 +72,17 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/unauthorized" element={<Unauthorized />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/reset-password/:token" element={<ResetPassword />} />
               </Route>
 
               {/* Secure/Protected pathways */}
               <Route element={<ProtectedRoute />}>
                 <Route path="/change-password" element={<ChangePassword />} />
                 <Route element={<DashboardLayout />}>
+                  {/* Account Security (All Roles) */}
+                  <Route path="/account/security" element={<AccountSecurity />} />
+
                   {/* Student features workspace */}
                   <Route element={<RoleRoute allowedRoles={['student']} />}>
                     <Route path="/student/dashboard" element={<StudentDashboard />} />

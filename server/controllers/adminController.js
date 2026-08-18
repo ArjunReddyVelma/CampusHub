@@ -258,6 +258,7 @@ const createUser = async (req, res, next) => {
       role,
       mustChangePassword: true,
       accountSource: 'institution',
+      passwordState: 'Temporary Password',
       universityId: role === ROLES.STUDENT ? universityId : undefined,
       employeeId: role === ROLES.PROFESSOR ? employeeId : undefined
     });
@@ -452,6 +453,7 @@ const importUsers = async (req, res, next) => {
             role: row.role,
             mustChangePassword: true,
             accountSource: 'institution',
+            passwordState: 'Temporary Password',
             universityId: row.universityId,
             employeeId: row.employeeId
           }], { session });
@@ -499,6 +501,7 @@ const importUsers = async (req, res, next) => {
             role: row.role,
             mustChangePassword: true,
             accountSource: 'institution',
+            passwordState: 'Temporary Password',
             universityId: row.universityId,
             employeeId: row.employeeId
           });
@@ -540,11 +543,42 @@ const importUsers = async (req, res, next) => {
   }
 };
 
+// @desc    Reset user's password (Admin Only)
+// @route   POST /api/v1/admin/users/:id/reset-password
+// @access  Private (Admin Only)
+const resetUserPassword = async (req, res, next) => {
+  try {
+    const targetUser = await User.findById(req.params.id);
+    if (!targetUser) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    // Generate temporary password
+    const tempPassword = 'Temp' + Math.random().toString(36).substring(2, 10) + '!';
+
+    targetUser.password = tempPassword;
+    targetUser.mustChangePassword = true;
+    targetUser.passwordState = 'Password Reset Required';
+    await targetUser.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Password reset successfully. User must change this temporary password at next login.',
+      data: {
+        tempPassword
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   getAdminDashboard,
   getUsers,
   updateUserRole,
   toggleUserStatus,
   createUser,
-  importUsers
+  importUsers,
+  resetUserPassword
 };

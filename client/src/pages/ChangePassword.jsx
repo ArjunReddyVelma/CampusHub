@@ -58,9 +58,14 @@ const ChangePassword = () => {
     <div className="min-h-screen flex items-center justify-center bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md bg-white border border-slate-100 shadow-xl rounded-2xl p-8 relative">
         <div className="text-center mb-6">
-          <h2 className="text-3xl font-black text-slate-800 tracking-tight">Set Secure Password</h2>
-          <p className="text-sm font-semibold text-slate-400 mt-1.5">
-            Please update your temporary credentials to proceed.
+          <div className="flex justify-center items-center gap-2 mb-4">
+            <span className="text-2xl font-black tracking-wider bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
+              CampusHub
+            </span>
+          </div>
+          <h2 className="text-3xl font-black text-slate-800 tracking-tight">Welcome to CampusHub</h2>
+          <p className="text-sm font-medium text-slate-500 mt-2">
+            Your account was created by your university administrator. Before continuing, you must create a new password.
           </p>
         </div>
 

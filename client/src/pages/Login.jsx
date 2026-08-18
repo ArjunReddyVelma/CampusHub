@@ -10,7 +10,7 @@ import useDocumentTitle from '../hooks/useDocumentTitle';
 const Login = () => {
   const { login, isAuthenticated, user, loading } = useAuth();
   const navigate = useNavigate();
-  useDocumentTitle('Login');
+  useDocumentTitle('CampusHub | Institutional Sign In');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -28,7 +28,7 @@ const Login = () => {
     setError('');
     
     if (!email || !password) {
-      setError('Please provide your email and password');
+      setError('Please provide your university credentials');
       return;
     }
 
@@ -48,29 +48,36 @@ const Login = () => {
     <div className="w-full max-w-md bg-white border border-slate-100 shadow-xl rounded-2xl p-8 relative">
       <div className="text-center mb-6">
         <h2 className="text-3xl font-black text-slate-800 tracking-tight">CampusHub</h2>
-        <p className="text-sm font-semibold text-slate-400 mt-1.5 font-sans">Use your university credentials to sign in.</p>
+        <p className="text-sm font-semibold text-emerald-600 uppercase tracking-widest mt-1">University Digital Campus Portal</p>
+        <div className="h-px bg-slate-200 my-4" />
+        <h3 className="text-lg font-bold text-slate-700">Institutional Sign In</h3>
       </div>
 
       <ErrorMessage message={error} className="mb-4" onDismiss={() => setError('')} />
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
-          label="University Email"
-          type="email"
+          label="University ID / Institutional Email"
+          type="text"
           name="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="yourname@university.edu"
+          placeholder="e.g. student001@campushub.test or SPSU_SEED_001"
           required
           disabled={submitting}
-          autoComplete="email"
+          autoComplete="username"
         />
 
         {/* Password input with show/hide toggle */}
         <div className="flex flex-col w-full text-left relative">
-          <label className="text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">
-            Password <span className="text-rose-500">*</span>
-          </label>
+          <div className="flex justify-between items-center mb-1.5">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              Password <span className="text-rose-500">*</span>
+            </label>
+            <Link to="/forgot-password" className="text-xs font-semibold text-emerald-600 hover:text-emerald-700 focus:outline-none">
+              Forgot Password?
+            </Link>
+          </div>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -113,11 +120,11 @@ const Login = () => {
         </Button>
       </form>
 
-      <div className="mt-6 flex flex-col items-center space-y-2 text-sm font-semibold text-slate-500 text-center">
-        <div>
-          Don't have an account?{' '}
-          <span className="text-slate-400 font-bold block md:inline">
-            Contact your university administrator.
+      <div className="mt-6 flex flex-col items-center space-y-3 text-sm font-semibold text-slate-500 text-center">
+        <div className="bg-slate-50 border border-slate-100 rounded-lg p-3 w-full">
+          <p className="text-xs text-slate-500">Need help accessing your university account?</p>
+          <span className="text-emerald-600 text-xs font-bold block mt-1">
+            Contact your university IT administrator.
           </span>
         </div>
         <Link to="/" className="text-slate-400 hover:text-slate-600 focus:outline-none focus:underline mt-2 block">
