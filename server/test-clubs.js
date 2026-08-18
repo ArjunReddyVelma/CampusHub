@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const User = require('./models/User');
 const Club = require('./models/Club');
 const Hackathon = require('./models/Hackathon');
+const StudentProfile = require('./models/StudentProfile');
+const ProfessorProfile = require('./models/ProfessorProfile');
 
 const PORT = 5098;
 let server;
@@ -17,6 +19,8 @@ const runTests = async () => {
     await User.deleteMany({});
     await Club.deleteMany({});
     await Hackathon.deleteMany({});
+    await StudentProfile.deleteMany({});
+    await ProfessorProfile.deleteMany({});
     console.log('Cleaned test database collections');
 
     server = app.listen(PORT, async () => {
