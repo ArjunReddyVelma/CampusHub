@@ -5,10 +5,12 @@ import authService from '../services/authService';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import ErrorMessage from '../components/common/ErrorMessage';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Register = () => {
   const { isAuthenticated, user, refreshUser, loading } = useAuth();
   const navigate = useNavigate();
+  useDocumentTitle('Register');
 
   const [formData, setFormData] = useState({
     name: '',

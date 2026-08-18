@@ -5,10 +5,12 @@ import { getDashboardPath } from '../utils/roleRedirect';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
 import ErrorMessage from '../components/common/ErrorMessage';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const Login = () => {
   const { login, isAuthenticated, user, loading } = useAuth();
   const navigate = useNavigate();
+  useDocumentTitle('Login');
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

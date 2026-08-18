@@ -1,8 +1,10 @@
 import React from 'react';
 import { useAuth } from '../hooks/useAuth';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const JudgeDashboard = () => {
   const { user } = useAuth();
+  useDocumentTitle('Judge Dashboard');
 
   return (
     <div className="space-y-6">

@@ -4,9 +4,11 @@ import { useAuth } from '../hooks/useAuth';
 import api from '../services/api';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const StudentDashboard = () => {
   const { user } = useAuth();
+  useDocumentTitle('Student Dashboard');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

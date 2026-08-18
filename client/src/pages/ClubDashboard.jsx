@@ -4,9 +4,11 @@ import api from '../services/api';
 import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
 import Button from '../components/common/Button';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const ClubDashboard = () => {
   const navigate = useNavigate();
+  useDocumentTitle('Club Dashboard');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');

@@ -36,12 +36,14 @@ const Button = ({
       className={`${baseStyle} ${variantClass} ${sizeClass} ${className}`}
       disabled={disabled || loading}
       onClick={onClick}
+      aria-busy={loading}
       {...props}
     >
       {loading ? (
         <>
           <LoadingSpinner size="sm" />
           <span className="ml-2">Please wait...</span>
+          <span className="sr-only">Action is in progress</span>
         </>
       ) : (
         children

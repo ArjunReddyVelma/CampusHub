@@ -4,8 +4,10 @@ import LoadingSpinner from '../components/common/LoadingSpinner';
 import ErrorMessage from '../components/common/ErrorMessage';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const AdminDashboard = () => {
+  useDocumentTitle('Admin Dashboard');
   const [metrics, setMetrics] = useState(null);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
